@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "751500640685",
+    "project_id": "farm-123-ee948",
+    "storage_bucket": "farm-123-ee948.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751500640685:android:5c44d7103096696abaa124",
+        "android_client_info": {
+          "package_name": "com.example.preschool_math_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc4i6IzIZGZRVQEM8lUMk1MeUn6uSnzvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
