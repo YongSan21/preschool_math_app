@@ -38,6 +38,7 @@ dependencies:
   firebase_auth: ^6.5.1
   cloud_firestore: ^6.4.1
   google_fonts: ^8.1.0
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,8 @@ flutter:
      - assets/images/wooden_sign.png
      - assets/images/login_background.png
      - assets/images/horse.png
+     - assets/images/counting_map.png
+     - assets/images/chicken.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
