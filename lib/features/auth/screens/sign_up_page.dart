@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../controllers/auth_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -184,34 +186,62 @@ class _SignUpPageState extends State<SignUpPage> {
 
                             // --- SIGN UP BUTTON ---
                             Center(
-                              child: SizedBox(
-                                width: 158,
-                                height: 52,
-                                child: ElevatedButton(
-                                  // 5. ADDED: Button now triggers validation
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _showSuccessDialog();
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFF2D06B), 
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                            child: SizedBox(
+                              width: 158,
+                              height: 52,
+                              child: Consumer<AuthController>( // Listens to the controller
+                                builder: (context, authController, child) {
+                                  return ElevatedButton(
+                                    onPressed: authController.isLoading 
+                                        ? null // Disables button while loading
+                                        : () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        // 1. Send data to Firebase
+                                        bool success = await authController.signUpUser(
+                                          _usernameController.text,
+                                          _passwordController.text,
+                                        );
+
+                                        // 2. Handle the result
+                                        if (success && context.mounted) {
+                                          _showSuccessDialog(); // Show the horse!
+                                        } else if (context.mounted) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text(authController.errorMessage)),
+                                          );
+                                        }
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFF2D06B),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 0,
                                     ),
-                                    elevation: 0,
-                                  ),
-                                  child: Text(
-                                    'Sign Up',
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 16, 
-                                      color: const Color(0xFF4A3728), 
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
+                                    // 3. Swap text for a spinner if loading
+                                    child: authController.isLoading
+                                        ? const SizedBox(
+                                            width: 24,
+                                            height: 24,
+                                            child: CircularProgressIndicator(
+                                              color: Color(0xFF4A3728),
+                                              strokeWidth: 3,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Sign Up',
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 16,
+                                              color: const Color(0xFF4A3728),
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                  );
+                                },
                               ),
                             ),
+                          ),
                           ],
                         ),
                       ),

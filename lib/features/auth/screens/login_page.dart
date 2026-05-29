@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../controllers/auth_controller.dart';
+import '../../map/screens/counting_map_page.dart';
 
 // Import your sign up page so the navigation button works!
 import 'sign_up_page.dart';
@@ -230,32 +233,58 @@ class _LoginPageState extends State<LoginPage> {
                             // --- LOGIN BUTTON ---
                             Center(
                               child: SizedBox(
-                                width: 158, 
+                                width: 158,
                                 height: 51,
-                                child: ElevatedButton(
-                                  // 5. ADDED: Button now triggers validation
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      // If the form is valid, this prints to your terminal.
-                                      // Later, this is where we will call your AuthController!
-                                      print('Login Validation Passed! Username: ${_usernameController.text}');
-                                    }
+                                child: Consumer<AuthController>(
+                                  builder: (context, authController, child) {
+                                    return ElevatedButton(
+                                      onPressed: authController.isLoading 
+                                          ? null 
+                                          : () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          // 1. Send data to Firebase
+                                          bool success = await authController.loginUser(
+                                            _usernameController.text,
+                                            _passwordController.text,
+                                          );
+
+                                          // 2. Handle the result
+                                          if (success && context.mounted) {
+                                          // Navigate to the Map, removing the back arrow so they can't accidentally go back to Login
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const CountingMapPage()),
+                                          );
+                                        }
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xFFFFB347),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                        ),
+                                        elevation: 0,
+                                      ),
+                                      // 3. Swap text for a spinner if loading
+                                      child: authController.isLoading
+                                          ? const SizedBox(
+                                              width: 24,
+                                              height: 24,
+                                              child: CircularProgressIndicator(
+                                                color: Color(0xFF4A3728),
+                                                strokeWidth: 3,
+                                              ),
+                                            )
+                                          : Text(
+                                              'Login',
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 16,
+                                                color: const Color(0xFF4A3728),
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                    );
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFFFB347), 
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    elevation: 0,
-                                  ),
-                                  child: Text(
-                                    'Login',
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 16, 
-                                      color: const Color(0xFF4A3728), 
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
                                 ),
                               ),
                             ),
