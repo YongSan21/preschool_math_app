@@ -71,13 +71,17 @@ flutter:
      - assets/images/counting_map.png
      - assets/images/chicken.png
      - assets/images/cat_dialog.png
-     - assets/images/counting_level1_activity1.png
+     - assets/images/counting_background1.png
      - assets/images/rabbit.png
+     - assets/images/circle.png
      - assets/audio/1.mp3
      - assets/audio/2.mp3
      - assets/audio/3.mp3
      - assets/audio/4.mp3
-     - assets/audio/5.mp3 
+     - assets/audio/5.mp3
+     - assets/audio/great_job.mp3
+     - assets/audio/try_again.mp3
+     - assets/audio/great_job_counting.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
