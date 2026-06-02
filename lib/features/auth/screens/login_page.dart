@@ -255,6 +255,10 @@ class _LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(builder: (context) => const CountingMapPage()),
                                           );
+                                        } else if (context.mounted){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text(authController.errorMessage)),
+                                          );
                                         }
                                         }
                                       },
