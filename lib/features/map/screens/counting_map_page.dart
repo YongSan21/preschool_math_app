@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../widgets/level_node.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../auth/screens/login_page.dart';
+import '../../counting/screens/level_1/activity_1_page.dart';
 
 class CountingMapPage extends StatefulWidget {
   const CountingMapPage({super.key});
@@ -18,8 +19,24 @@ class _CountingMapPageState extends State<CountingMapPage> {
   bool _showIntroDialog = true;
 
   void _handleNodeTap(String level) {
-    print('Navigating to Level $level!');
-    // TODO: Navigate to the actual counting game level
+    if (level == '1') {
+      // Navigate to the activity we just built!
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Activity1Page()),
+      );
+    } else {
+      // Show a temporary message for nodes 2, 3, 4, and 5
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Level $level is locked! Finish previous levels first.'),
+          backgroundColor: const Color(0xFF4A3728),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   @override
