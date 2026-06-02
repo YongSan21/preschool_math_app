@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../widgets/countable_rabbit.dart';
+import 'activity_2_page.dart';
 
 class Activity1Page extends StatefulWidget {
   const Activity1Page({super.key});
@@ -45,16 +46,38 @@ class _Activity1PageState extends State<Activity1Page> {
         _rabbitNumbers[index] = _currentCount;
       });
 
-      // 4. Play the matching audio file instantly
+      // 1. ALWAYS play the number first (1, 2, 3, 4, AND 5!)
       try {
         await _audioPlayer.play(AssetSource('audio/$_currentCount.mp3'));
       } catch (e) {
         print("Audio error: $e");
       }
 
-      // Check for win condition
+      // 2. If it is the final rabbit, trigger the winning sequence
       if (_currentCount == 5) {
-        print('Activity Complete! Prepare for Activity 2.');
+        // Wait 1 second to let the word "Five" completely finish playing
+        await Future.delayed(const Duration(seconds: 1));
+
+        // Safety check: Did the user hit the back button during that 1 second?
+        if (!mounted) return; 
+
+        // Play the celebratory audio
+        try {
+          await _audioPlayer.play(AssetSource('audio/great_job_counting.mp3'));
+        } catch (e) {
+          print("Audio error: $e");
+        }
+
+        // Wait 3.5 seconds to let the "Great job, let's do more counting" audio finish.
+        await Future.delayed(const Duration(milliseconds: 3500));
+
+        // Final safety check before navigating
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Activity2Page()),
+          );
+        }
       }
     }
   }
@@ -72,7 +95,7 @@ class _Activity1PageState extends State<Activity1Page> {
             height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/counting_level1_activity1.png'),
+                image: AssetImage('assets/images/counting_background1.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -133,7 +156,7 @@ class _Activity1PageState extends State<Activity1Page> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       // Padding to position the text exactly inside the white bubble area of the image
-                      padding: const EdgeInsets.only(bottom: 45.0, left: 32.0, right: 32.0),
+                      padding: const EdgeInsets.only(bottom: 28.0, left: 20.0, right: 20.0),
                       child: Text(
                         'Can you tap the rabbits to count them?',
                         textAlign: TextAlign.center,
@@ -141,7 +164,7 @@ class _Activity1PageState extends State<Activity1Page> {
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          height: 1.40,
+                          height: 1.30,
                         ),
                       ),
                     ),
