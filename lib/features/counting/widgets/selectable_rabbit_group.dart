@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class SelectableRabbitGroup extends StatefulWidget {
   final int rabbitCount;
   final VoidCallback onTap;
+  final int? activeRabbitIndex; // Tells the widget which rabbit is being counted
 
   const SelectableRabbitGroup({
     super.key,
     required this.rabbitCount,
     required this.onTap,
+    this.activeRabbitIndex, 
   });
 
   @override
@@ -51,28 +53,35 @@ class _SelectableRabbitGroupState extends State<SelectableRabbitGroup> with Sing
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: SizedBox(
-          width: 320,
-          height: 190, // The total invisible box holding this group
+          width: 320,  // <-- Restored your perfect width
+          height: 190, // <-- Restored your perfect height
           child: Stack(
-            alignment: Alignment.center, // <-- This magically centers everything!
+            alignment: Alignment.center,
             children: [
-              // 1. BOTTOM LAYER: The Rug (Centered automatically)
+              // 1. BOTTOM LAYER: The Rug
               Image.asset(
                 'assets/images/circle.png',
-                width: 320,
-                height: 190, // A nice thick oval (Don't go too high, or it becomes a circle!)
+                width: 320,  // <-- Restored your perfect width
+                height: 190, // <-- Restored your perfect height
                 fit: BoxFit.fill,
               ),
               
               // 2. TOP LAYER: The Rabbits
-              // We use Padding to just slightly nudge the rabbits up from the exact center
               Padding(
-                padding: const EdgeInsets.only(bottom: 15.0), 
+                padding: const EdgeInsets.only(bottom: 15.0), // <-- Restored your exact bottom padding
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(widget.rabbitCount, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    
+                    // NEW: Check if this specific rabbit is the one being counted!
+                    final isCountingMe = widget.activeRabbitIndex == index;
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                      // If it is counting this rabbit, push it UP by 20 pixels. Otherwise, stay at 0.
+                      transform: Matrix4.translationValues(0, isCountingMe ? -20.0 : 0.0, 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0), // <-- Restored your exact horizontal spacing
                       child: Image.asset(
                         'assets/images/rabbit.png',
                         width: 70,
