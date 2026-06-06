@@ -49,4 +49,32 @@ class AuthService {
   Future<void> logout() async {
     await _auth.signOut();
   }
+
+  // --- SAVE PROGRESS & BADGES ---
+  Future<void> saveBadgeAndProgress(String badgeName, int levelCompleted) async {
+    try {
+      // 1. Get the current logged-in user
+      final User? user = _auth.currentUser;
+      if (user == null) throw Exception("No user is currently logged in.");
+
+      // 2. Fetch their current data to ensure we don't downgrade their level progress if they replay an old level
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+      int currentLevels = userDoc.get('levelsCompleted') ?? 0;
+      
+      // Only increase the level count if the level they just beat is higher than their current score
+      int newLevelCount = levelCompleted > currentLevels ? levelCompleted : currentLevels;
+
+      // 3. Update the database
+      await _firestore.collection('users').doc(user.uid).update({
+        // arrayUnion appends the badge ONLY if it doesn't already exist in the list
+        'badges': FieldValue.arrayUnion([badgeName]),
+        'levelsCompleted': newLevelCount,
+      });
+      
+      print("Successfully saved $badgeName and unlocked Level ${levelCompleted + 1}!");
+      
+    } catch (e) {
+      print("Error saving progress: $e");
+    }
+  }
 }
