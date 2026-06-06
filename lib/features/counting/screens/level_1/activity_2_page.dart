@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../widgets/selectable_rabbit_group.dart';
+import 'activity_3_page.dart';
 
 class Activity2Page extends StatefulWidget {
   const Activity2Page({super.key});
@@ -15,6 +16,11 @@ class _Activity2PageState extends State<Activity2Page> {
   
   // The answer the child is looking for
   final int _targetNumber = 3; 
+
+  // State Variables for animations and logic
+  bool _isGreyedOut = false; 
+  bool _isLocked = false; 
+  int? _currentlyCountingIndex; 
 
   @override
   void initState() {
@@ -30,26 +36,72 @@ class _Activity2PageState extends State<Activity2Page> {
   }
 
   void _onGroupTapped(int count) async {
-    try {
-      if (count == _targetNumber) {
+    // Prevent taps while the success animation is playing
+    if (_isLocked) return;
+
+    if (count == _targetNumber) {
+      // 1. Lock screen and trigger the greyscale fade for the wrong answer
+      setState(() {
+        _isLocked = true;
+        _isGreyedOut = true; 
+      });
+
+      try {
+        // 2. Play Great Job
         await _audioPlayer.play(AssetSource('audio/great_job.mp3'));
-        print('Correct! Move to next activity.');
-      } else {
-        await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
+        await Future.delayed(const Duration(milliseconds: 1500));
+        if (!mounted) return;
+
+        // 3. Bounce and Count Rabbit 1
+        setState(() => _currentlyCountingIndex = 0);
+        await _audioPlayer.play(AssetSource('audio/1.mp3'));
+        await Future.delayed(const Duration(milliseconds: 800));
+
+        // 4. Bounce and Count Rabbit 2
+        setState(() => _currentlyCountingIndex = 1);
+        await _audioPlayer.play(AssetSource('audio/2.mp3'));
+        await Future.delayed(const Duration(milliseconds: 800));
+
+        // 5. Bounce and Count Rabbit 3
+        setState(() => _currentlyCountingIndex = 2);
+        await _audioPlayer.play(AssetSource('audio/3.mp3'));
+        await Future.delayed(const Duration(milliseconds: 800));
+
+        // 6. Reset all rabbits and play the final explanatory audio
+        setState(() => _currentlyCountingIndex = null);
+        await _audioPlayer.play(AssetSource('audio/there_are_three_rabbits.mp3'));
+        
+        // Wait for the final audio to finish
+        await Future.delayed(const Duration(milliseconds: 3000));
+
+        // 7. Transition to Activity 3
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Activity3Page()),
+          );
+        }
+      } catch (e) {
+        print("Audio error: $e");
       }
-    } catch (e) {
-      print("Audio error: $e");
+    } else {
+      // THE WRONG ANSWER
+      try {
+        await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
+      } catch (e) {
+        print("Audio error: $e");
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD2E7EC), // From your Figma design
+      backgroundColor: const Color(0xFFD2E7EC),
       body: Stack(
         children: [
           // ---------------------------------------------------------
-          // 1. BACK BUTTON
+          // 1. BACK BUTTON (Safe area top left)
           // ---------------------------------------------------------
           SafeArea(
             child: Align(
@@ -69,17 +121,46 @@ class _Activity2PageState extends State<Activity2Page> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Wrong Group
-                  SelectableRabbitGroup(
-                    rabbitCount: 2,
-                    onTap: () => _onGroupTapped(2),
+                  // ---------------------------------------------------------
+                  // The Wrong Group (2 Rabbits) - Fades to Grey on Win
+                  // ---------------------------------------------------------
+                  AnimatedCrossFade(
+                    duration: const Duration(milliseconds: 500),
+                    crossFadeState: _isGreyedOut ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                    
+                    // STATE 1: Full Color
+                    firstChild: SelectableRabbitGroup(
+                      rabbitCount: 2,
+                      onTap: () => _onGroupTapped(2),
+                    ),
+                    
+                    // STATE 2: Greyscale
+                    secondChild: ColorFiltered(
+                      // This matrix drains color but perfectly preserves transparency
+                      colorFilter: const ColorFilter.matrix(<double>[
+                        0.2126, 0.7152, 0.0722, 0, 0,
+                        0.2126, 0.7152, 0.0722, 0, 0,
+                        0.2126, 0.7152, 0.0722, 0, 0,
+                        0,      0,      0,      1, 0,
+                      ]),
+                      child: SelectableRabbitGroup(
+                        rabbitCount: 2,
+                        onTap: () {}, // Empty tap so it cannot trigger audio again
+                      ),
+                    ),
                   ),
+                  
                   const SizedBox(height: 20),
-                  // Correct Group
+                  
+                  // ---------------------------------------------------------
+                  // The Correct Group (3 Rabbits) - Handles the individual bouncing
+                  // ---------------------------------------------------------
                   SelectableRabbitGroup(
                     rabbitCount: 3,
+                    activeRabbitIndex: _currentlyCountingIndex,
                     onTap: () => _onGroupTapped(3),
                   ),
+                  
                   const SizedBox(height: 120), // Buffer space for the cat dialog
                 ],
               ),
