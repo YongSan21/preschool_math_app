@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 class LevelNode extends StatelessWidget {
   final String levelNumber;
   final VoidCallback onTap;
+  final bool isUnlocked; // <-- NEW: Required to know if we show Yellow or Grey
 
   const LevelNode({
     super.key,
     required this.levelNumber,
     required this.onTap,
+    required this.isUnlocked, // <-- Added to constructor
   });
 
   @override
@@ -22,31 +24,33 @@ class LevelNode extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // 1. Bottom Shadow (Dark Yellow)
+            // 1. Bottom Shadow 
             Positioned(
               top: 7,
               child: Container(
                 width: 71,
                 height: 58,
-                decoration: const ShapeDecoration(
-                  color: Color(0xFFE6A000), 
-                  shape: OvalBorder(),
+                decoration: ShapeDecoration(
+                  // Dark Yellow if unlocked, Dark Grey if locked
+                  color: isUnlocked ? const Color(0xFFE6A000) : Colors.grey.shade500, 
+                  shape: const OvalBorder(),
                 ),
               ),
             ),
-            // 2. Main Coin Body (Gold)
+            // 2. Main Coin Body 
             Positioned(
               top: 0,
               child: Container(
                 width: 71,
                 height: 58,
-                decoration: const ShapeDecoration(
-                  color: Color(0xFFFFC800), 
-                  shape: OvalBorder(),
+                decoration: ShapeDecoration(
+                  // Gold if unlocked, Light Grey if locked
+                  color: isUnlocked ? const Color(0xFFFFC800) : Colors.grey.shade300, 
+                  shape: const OvalBorder(),
                 ),
               ),
             ),
-            // 3. Inner Highlight (Translucent White instead of solid gray)
+            // 3. Inner Highlight (Translucent White)
             Positioned(
               top: 5,
               child: Container(
@@ -58,18 +62,24 @@ class LevelNode extends StatelessWidget {
                 ),
               ),
             ),
-            // 4. Level Number
+            // 4. Level Number OR Lock Icon
             Positioned(
-              top: 9,
-              child: Text(
-                levelNumber,
-                style: GoogleFonts.quicksand(
-                  color: const Color(0xFF4A3728),
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  height: 1.40,
-                ),
-              ),
+              top: isUnlocked ? 9 : 14, // Slightly adjust the top margin to center the lock icon
+              child: isUnlocked
+                  ? Text(
+                      levelNumber,
+                      style: GoogleFonts.quicksand(
+                        color: const Color(0xFF4A3728),
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        height: 1.40,
+                      ),
+                    )
+                  : const Icon(
+                      Icons.lock_rounded,
+                      color: Color(0xFF4A3728), // Keeping the brown color to match the aesthetic
+                      size: 28,
+                    ),
             ),
           ],
         ),
