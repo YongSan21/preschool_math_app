@@ -73,9 +73,11 @@ flutter:
      - assets/images/cat_dialog.png
      - assets/images/counting_background1.png
      - assets/images/counting_background2.png
+     - assets/images/counting_background3.png
      - assets/images/rabbit.png
      - assets/images/circle.png
      - assets/images/pony.png
+     - assets/images/cow.png
       # Badges
      - assets/images/count_badge1.png
      - assets/audio/1.mp3
@@ -83,11 +85,17 @@ flutter:
      - assets/audio/3.mp3
      - assets/audio/4.mp3
      - assets/audio/5.mp3
+     - assets/audio/6.mp3
+     - assets/audio/7.mp3
+     - assets/audio/8.mp3
+     - assets/audio/9.mp3
+     - assets/audio/10.mp3
      - assets/audio/great_job.mp3
      - assets/audio/try_again.mp3
      - assets/audio/great_job_counting.mp3
      - assets/audio/there_are_three_rabbits.mp3
      - assets/audio/there_are_five_ponies.mp3
+     - assets/audio/there_are_seven_cows.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
