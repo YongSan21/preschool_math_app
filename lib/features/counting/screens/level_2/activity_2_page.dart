@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../widgets/selectable_cow_group.dart';
-
-// TODO: Import Activity 3 once you create it!
-// import 'activity_3_page.dart';
+import 'activity_3_page.dart';
 
 class Level2Activity2Page extends StatefulWidget {
   const Level2Activity2Page({super.key});
@@ -69,11 +67,10 @@ class _Level2Activity2PageState extends State<Level2Activity2Page> {
 
         // 5. Transition to Activity 3
         if (mounted) {
-          print("Navigate to Level 2 Activity 3!");
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => const Level2Activity3Page()),
-          // );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Level2Activity3Page()),
+          );
         }
       } catch (e) {
         print("Audio error: $e");
