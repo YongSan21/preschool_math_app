@@ -1,0 +1,270 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'level_4_complete_screen.dart';
+
+class Level4Activity3Page extends StatefulWidget {
+  const Level4Activity3Page({super.key});
+
+  @override
+  State<Level4Activity3Page> createState() => _Level4Activity3PageState();
+}
+
+class _Level4Activity3PageState extends State<Level4Activity3Page> {
+  late AudioPlayer _audioPlayer;
+
+  final int _targetNumber = 19;
+  final int _wrongNumber = 20;
+
+  bool _isLocked = false;
+  bool _isGreyedOut = false;
+  int? _currentlyCountingIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  void _onNumberTapped(int selectedNumber) async {
+    if (_isLocked) return;
+
+    try {
+      if (selectedNumber == _targetNumber) {
+        setState(() {
+          _isLocked = true;
+          _isGreyedOut = true;
+        });
+
+        await _audioPlayer.play(AssetSource('audio/great_job.mp3'));
+        await Future.delayed(const Duration(milliseconds: 1500));
+        if (!mounted) return;
+
+        for (int i = 0; i < _targetNumber; i++) {
+          setState(() => _currentlyCountingIndex = i);
+
+          final number = i + 1;
+          await _audioPlayer.play(AssetSource('audio/$number.mp3'));
+          await Future.delayed(_numberAudioDelay(number));
+          if (!mounted) return;
+        }
+
+        setState(() => _currentlyCountingIndex = null);
+        await _audioPlayer.play(AssetSource('audio/there_are_ninteen_cows.mp3'));
+        await Future.delayed(const Duration(milliseconds: 3000));
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Level4CompleteScreen(),
+            ),
+          );
+        }
+      } else {
+        await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
+      }
+    } catch (e) {
+      print('Audio error: $e');
+      if (mounted) {
+        setState(() => _isLocked = false);
+      }
+    }
+  }
+
+  Duration _numberAudioDelay(int number) {
+    if (number >= 16) {
+      return const Duration(milliseconds: 1300);
+    }
+
+    if (number >= 11) {
+      return const Duration(milliseconds: 1100);
+    }
+
+    return const Duration(milliseconds: 800);
+  }
+
+  Widget _buildAnimatedCow(int globalIndex) {
+    final bool isCountingMe = _currentlyCountingIndex == globalIndex;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      transform: Matrix4.translationValues(0, isCountingMe ? -20.0 : 0.0, 0),
+      child: Image.asset(
+        'assets/images/cow.png',
+        width: 55,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  Widget _buildCowRow(int startIndex, int count) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(count, (index) {
+        return _buildAnimatedCow(startIndex + index);
+      }),
+    );
+  }
+
+  Widget _buildNumberButton(int number, {bool isDisabled = false}) {
+    return GestureDetector(
+      onTap: isDisabled ? null : () => _onNumberTapped(number),
+      child: Container(
+        width: 80,
+        height: 70,
+        decoration: BoxDecoration(
+          color: const Color(0xFF29694A),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 4),
+              blurRadius: 4,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            number.toString(),
+            style: GoogleFonts.inter(
+              color: const Color(0xFFF5F5F5),
+              fontSize: 36,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGreyedWrongButton() {
+    return AnimatedCrossFade(
+      duration: const Duration(milliseconds: 500),
+      crossFadeState:
+          _isGreyedOut ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      firstChild: _buildNumberButton(_wrongNumber),
+      secondChild: ColorFiltered(
+        colorFilter: const ColorFilter.matrix(<double>[
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0, 0, 0, 1, 0,
+        ]),
+        child: _buildNumberButton(_wrongNumber, isDisabled: true),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/counting_background2.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                  size: 32,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 58),
+                  _buildCowRow(0, 6),
+                  const SizedBox(height: 10),
+                  _buildCowRow(6, 6),
+                  const SizedBox(height: 10),
+                  _buildCowRow(12, 6),
+                  const SizedBox(height: 18),
+                  _buildCowRow(18, 1),
+                  const SizedBox(height: 44),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildNumberButton(_targetNumber),
+                      const SizedBox(width: 60),
+                      _buildGreyedWrongButton(),
+                    ],
+                  ),
+                  const SizedBox(height: 150),
+                ],
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 24.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/cat_dialog.png'),
+                      fit: BoxFit.contain,
+                      alignment: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 28.0,
+                        left: 20.0,
+                        right: 20.0,
+                      ),
+                      child: Text(
+                        'Tap the correct number of cows.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          height: 2.6,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
