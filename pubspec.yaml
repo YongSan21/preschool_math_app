@@ -74,14 +74,28 @@ flutter:
      - assets/images/counting_background1.png
      - assets/images/counting_background2.png
      - assets/images/counting_background3.png
+     - assets/images/counting_background4.png
+     - assets/images/counting_background5.png
      - assets/images/rabbit.png
      - assets/images/circle.png
      - assets/images/pony.png
      - assets/images/cow.png
      - assets/images/chicken2.png
-      # Badges
+     - assets/images/brown_rabbit.png
+     - assets/images/khaki_rabbit.png
+     - assets/images/bee.png
+     - assets/images/flower_patch.png
+     - assets/images/sheep.png
+     - assets/images/fence.png
+     - assets/images/board.png
+     - assets/images/squirrel.png
+     # Badges
      - assets/images/count_badge1.png
      - assets/images/count_badge2.png
+     - assets/images/count_badge3.png
+     - assets/images/count_badge4.png
+
+     # Audio files
      - assets/audio/1.mp3
      - assets/audio/2.mp3
      - assets/audio/3.mp3
@@ -92,6 +106,16 @@ flutter:
      - assets/audio/8.mp3
      - assets/audio/9.mp3
      - assets/audio/10.mp3
+     - assets/audio/11.mp3
+     - assets/audio/12.mp3
+     - assets/audio/13.mp3
+     - assets/audio/14.mp3
+     - assets/audio/15.mp3
+     - assets/audio/16.mp3
+     - assets/audio/17.mp3
+     - assets/audio/18.mp3
+     - assets/audio/19.mp3
+     - assets/audio/20.mp3
      - assets/audio/great_job.mp3
      - assets/audio/try_again.mp3
      - assets/audio/great_job_counting.mp3
@@ -99,6 +123,10 @@ flutter:
      - assets/audio/there_are_five_ponies.mp3
      - assets/audio/there_are_seven_cows.mp3
      - assets/audio/there_are_ten_chickens.mp3
+     - assets/audio/there_are_eleven_bees.mp3
+     - assets/audio/there_are_twelve_bees.mp3
+     - assets/audio/there_are_seventeen_squirrels.mp3
+     - assets/audio/there_are_ninteen_cows.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
