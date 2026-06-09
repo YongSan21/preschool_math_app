@@ -9,6 +9,8 @@ import '../../auth/controllers/auth_controller.dart';
 import '../../auth/screens/login_page.dart';
 import '../../counting/screens/level_1/activity_1_page.dart';
 import '../../counting/screens/level_2/activity_1_page.dart';
+import '../../counting/screens/level_3/activity_1_page.dart';
+import '../../counting/screens/level_4/activity_1_page.dart';
 
 class CountingMapPage extends StatefulWidget {
   const CountingMapPage({super.key});
@@ -38,6 +40,16 @@ class _CountingMapPageState extends State<CountingMapPage> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const Level2Activity1Page()),
+        );
+      } else if (level == 3) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Level3Activity1Page()),
+        );
+      } else if (level == 4) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Level4Activity1Page()),
         );
       } else {
         print("Navigate to Level $level!");
