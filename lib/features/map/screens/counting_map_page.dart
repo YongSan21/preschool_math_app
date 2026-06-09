@@ -76,9 +76,17 @@ class _CountingMapPageState extends State<CountingMapPage> {
 
                 // Safely extract levelsCompleted (defaults to 0 for new players)
                 int levelsCompleted = 0;
+
                 if (snapshot.hasData && snapshot.data!.exists) {
                   final data = snapshot.data!.data() as Map<String, dynamic>;
-                  levelsCompleted = data['levelsCompleted'] ?? 0;
+
+                  final progress = data['progress'] as Map<String, dynamic>?;
+                  final countingProgress = progress?['counting'] as Map<String, dynamic>?;
+
+                  levelsCompleted =
+                      countingProgress?['levelsCompleted'] ??
+                      data['levelsCompleted'] ??
+                      0;
                 }
 
                 return Stack(
