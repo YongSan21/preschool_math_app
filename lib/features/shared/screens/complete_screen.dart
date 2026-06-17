@@ -9,7 +9,9 @@ class CompleteScreen extends StatelessWidget {
     required this.levelCompleted,
     required this.badgeName,
     required this.badgeImage,
-    required this.backgroundImage,
+    this.backgroundImage,
+    this.backgroundColor,
+    this.showContinueButton = true,
     this.onContinue,
   });
 
@@ -17,7 +19,9 @@ class CompleteScreen extends StatelessWidget {
   final int levelCompleted;
   final String badgeName;
   final String badgeImage;
-  final String backgroundImage;
+  final String? backgroundImage;
+  final Color? backgroundColor;
+  final bool showContinueButton;
   final VoidCallback? onContinue;
 
   Future<void> _saveProgress() async {
@@ -37,10 +41,13 @@ class CompleteScreen extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundImage),
-                fit: BoxFit.cover,
-              ),
+              color: backgroundColor,
+              image: backgroundImage == null
+                  ? null
+                  : DecorationImage(
+                      image: AssetImage(backgroundImage!),
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
 
@@ -123,17 +130,18 @@ class CompleteScreen extends StatelessWidget {
                             }
                           },
                         ),
-                        _buildActionButton(
-                          text: 'Continue',
-                          backgroundColor: const Color(0xFFF2D06B),
-                          onTap: () async {
-                            await _saveProgress();
+                        if (showContinueButton)
+                          _buildActionButton(
+                            text: 'Continue',
+                            backgroundColor: const Color(0xFFF2D06B),
+                            onTap: () async {
+                              await _saveProgress();
 
-                            if (context.mounted) {
-                              onContinue?.call();
-                            }
-                          },
-                        ),
+                              if (context.mounted) {
+                                onContinue?.call();
+                              }
+                            },
+                          ),
                       ],
                     ),
                   ],
