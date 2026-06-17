@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:preschool_math_app/features/counting/screens/level_5/activity_1_page.dart';
 import 'package:preschool_math_app/features/shared/screens/complete_screen.dart';
 
 class Level4CompleteScreen extends StatelessWidget {
@@ -13,7 +14,12 @@ class Level4CompleteScreen extends StatelessWidget {
       badgeImage: 'assets/images/count_badge4.png',
       backgroundImage: 'assets/images/counting_background2.png',
       onContinue: () {
-        print('Navigate to Level 5!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Level5Activity1Page(),
+          ),
+        );
       },
     );
   }
