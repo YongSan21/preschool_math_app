@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
-import 'features/auth/screens/login_page.dart';
 import 'features/auth/controllers/auth_controller.dart';
+import 'features/splash/screens/splash_page_1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange, 
       ),
-      home: const LoginPage(), 
+      home: const SplashPage1(), 
     );
   }
 }
