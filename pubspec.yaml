@@ -89,11 +89,17 @@ flutter:
      - assets/images/fence.png
      - assets/images/board.png
      - assets/images/squirrel.png
+     - assets/images/blue_bird.png
+     - assets/images/green_bird.png
+     - assets/images/bubble.png
+     - assets/images/icon1.png
+     - assets/images/icon2.png
      # Badges
      - assets/images/count_badge1.png
      - assets/images/count_badge2.png
      - assets/images/count_badge3.png
      - assets/images/count_badge4.png
+     - assets/images/count_badge5.png
 
      # Audio files
      - assets/audio/1.mp3
@@ -127,6 +133,7 @@ flutter:
      - assets/audio/there_are_twelve_bees.mp3
      - assets/audio/there_are_seventeen_squirrels.mp3
      - assets/audio/there_are_ninteen_cows.mp3
+     - assets/audio/you_tapped_on_five_birds.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
