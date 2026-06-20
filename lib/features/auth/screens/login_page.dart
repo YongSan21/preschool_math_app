@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../controllers/auth_controller.dart';
-import '../../map/screens/counting_map_page.dart';
+import '../../home/screens/home_page.dart';
 
 // Import your sign up page so the navigation button works!
 import 'sign_up_page.dart';
@@ -250,10 +250,10 @@ class _LoginPageState extends State<LoginPage> {
 
                                           // 2. Handle the result
                                           if (success && context.mounted) {
-                                          // Navigate to the Map, removing the back arrow so they can't accidentally go back to Login
+                                          // Navigate to the home page, removing the back arrow so they can't accidentally go back to Login
                                           Navigator.pushReplacement(
                                             context,
-                                            MaterialPageRoute(builder: (context) => const CountingMapPage()),
+                                            MaterialPageRoute(builder: (context) => const HomePage()),
                                           );
                                         } else if (context.mounted){
                                           ScaffoldMessenger.of(context).showSnackBar(
