@@ -99,7 +99,8 @@ class _CountingMapPageState extends State<CountingMapPage> {
                   final data = snapshot.data!.data() as Map<String, dynamic>;
 
                   final progress = data['progress'] as Map<String, dynamic>?;
-                  final countingProgress = progress?['counting'] as Map<String, dynamic>?;
+                  final countingProgress =
+                      progress?['counting'] as Map<String, dynamic>?;
 
                   levelsCompleted =
                       countingProgress?['levelsCompleted'] ??
