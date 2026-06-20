@@ -69,6 +69,8 @@ flutter:
      - assets/images/login_background.png
      - assets/images/horse.png
      - assets/images/counting_map.png
+     - assets/images/addition_map.png
+     - assets/images/subtraction_map.png
      - assets/images/chicken.png
      - assets/images/cat_dialog.png
      - assets/images/counting_background1.png
@@ -94,6 +96,12 @@ flutter:
      - assets/images/bubble.png
      - assets/images/icon1.png
      - assets/images/icon2.png
+     - assets/images/home_badge.png
+     - assets/images/home_counting.png
+     - assets/images/home_addition.png
+     - assets/images/home_subtraction.png
+     - assets/images/home_icon.png
+     - assets/images/trophy_icon.png
      # Badges
      - assets/images/count_badge1.png
      - assets/images/count_badge2.png
