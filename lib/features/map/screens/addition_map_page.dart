@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../addition/screens/level_1/activity_1_page.dart';
 import '../widgets/level_node.dart';
 
 class AdditionMapPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class AdditionMapPage extends StatefulWidget {
 class _AdditionMapPageState extends State<AdditionMapPage> {
   late bool _showIntroDialog = widget.showIntroDialog;
 
-  void _handleNodeTap(String levelStr, int levelsCompleted) {
+  Future<void> _handleNodeTap(String levelStr, int levelsCompleted) async {
     final int level = int.parse(levelStr);
     final bool isUnlocked = level <= (levelsCompleted + 1);
 
@@ -37,14 +38,18 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
       return;
     }
 
-    print('Navigate to Addition Level $level!');
-    // TODO: Replace with real addition level pages once they are created.
-    // if (level == 1) {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const AdditionLevel1Activity1Page()),
-    //   );
-    // }
+    if (level == 1) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdditionLevel1Activity1Page(),
+        ),
+      );
+
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
   @override
