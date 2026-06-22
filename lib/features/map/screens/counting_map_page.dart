@@ -14,7 +14,12 @@ import '../../counting/screens/level_4/activity_1_page.dart';
 import '../../counting/screens/level_5/activity_1_page.dart';
 
 class CountingMapPage extends StatefulWidget {
-  const CountingMapPage({super.key});
+  const CountingMapPage({
+    super.key,
+    this.showIntroDialog = true,
+  });
+
+  final bool showIntroDialog;
 
   @override
   State<CountingMapPage> createState() => _CountingMapPageState();
@@ -22,7 +27,7 @@ class CountingMapPage extends StatefulWidget {
 
 class _CountingMapPageState extends State<CountingMapPage> {
   // Controls whether the intro dialog is visible
-  bool _showIntroDialog = true;
+  late bool _showIntroDialog = widget.showIntroDialog;
 
   // Added levelsCompleted as a required parameter to determine routing
   void _handleNodeTap(String levelStr, int levelsCompleted) {
