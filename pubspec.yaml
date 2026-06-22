@@ -102,6 +102,9 @@ flutter:
      - assets/images/home_subtraction.png
      - assets/images/home_icon.png
      - assets/images/trophy_icon.png
+     - assets/images/addition_background1.png
+     - assets/images/basket.png
+     - assets/images/carrot.png
      # Badges
      - assets/images/count_badge1.png
      - assets/images/count_badge2.png
@@ -142,6 +145,10 @@ flutter:
      - assets/audio/there_are_seventeen_squirrels.mp3
      - assets/audio/there_are_ninteen_cows.mp3
      - assets/audio/you_tapped_on_five_birds.mp3
+     - assets/audio/two_carrots.mp3
+     - assets/audio/three_more_carrots.mp3
+     - assets/audio/two_and_three_make_five_altogether.mp3
+     - assets/audio/one_plus_three_equals_four.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
