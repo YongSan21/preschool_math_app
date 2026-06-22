@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:preschool_math_app/features/auth/services/auth_service.dart';
+import 'package:preschool_math_app/features/map/screens/addition_map_page.dart';
+import 'package:preschool_math_app/features/map/screens/counting_map_page.dart';
+import 'package:preschool_math_app/features/map/screens/subtraction_map_page.dart';
 
 class CompleteScreen extends StatelessWidget {
   const CompleteScreen({
@@ -123,8 +126,11 @@ class CompleteScreen extends StatelessWidget {
                             await _saveProgress();
 
                             if (context.mounted) {
-                              Navigator.popUntil(
+                              Navigator.pushAndRemoveUntil(
                                 context,
+                                MaterialPageRoute(
+                                  builder: (context) => _mapPageForModule(),
+                                ),
                                 (route) => route.isFirst,
                               );
                             }
@@ -152,6 +158,18 @@ class CompleteScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _mapPageForModule() {
+    switch (module) {
+      case 'addition':
+        return const AdditionMapPage(showIntroDialog: false);
+      case 'subtraction':
+        return const SubtractionMapPage(showIntroDialog: false);
+      case 'counting':
+      default:
+        return const CountingMapPage(showIntroDialog: false);
+    }
   }
 
   Widget _buildActionButton({
