@@ -6,14 +6,19 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/level_node.dart';
 
 class AdditionMapPage extends StatefulWidget {
-  const AdditionMapPage({super.key});
+  const AdditionMapPage({
+    super.key,
+    this.showIntroDialog = true,
+  });
+
+  final bool showIntroDialog;
 
   @override
   State<AdditionMapPage> createState() => _AdditionMapPageState();
 }
 
 class _AdditionMapPageState extends State<AdditionMapPage> {
-  bool _showIntroDialog = true;
+  late bool _showIntroDialog = widget.showIntroDialog;
 
   void _handleNodeTap(String levelStr, int levelsCompleted) {
     final int level = int.parse(levelStr);
