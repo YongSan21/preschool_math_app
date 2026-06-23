@@ -105,7 +105,11 @@ flutter:
      - assets/images/addition_background1.png
      - assets/images/basket.png
      - assets/images/carrot.png
+     - assets/images/orange.png
+     - assets/images/tree.png
+     - assets/images/apple.png
      # Badges
+     - assets/images/add_badge1.png
      - assets/images/count_badge1.png
      - assets/images/count_badge2.png
      - assets/images/count_badge3.png
@@ -149,6 +153,10 @@ flutter:
      - assets/audio/three_more_carrots.mp3
      - assets/audio/two_and_three_make_five_altogether.mp3
      - assets/audio/one_plus_three_equals_four.mp3
+     - assets/audio/two_plus_two_equals_four.mp3
+     - assets/audio/six_apples.mp3
+     - assets/audio/four_more_apples.mp3
+     - assets/audio/six_and_four_make_ten_altogether.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
