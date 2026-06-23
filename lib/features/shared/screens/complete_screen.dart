@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:preschool_math_app/features/auth/services/auth_service.dart';
@@ -27,14 +29,6 @@ class CompleteScreen extends StatelessWidget {
   final bool showContinueButton;
   final VoidCallback? onContinue;
 
-  Future<void> _saveProgress() async {
-    await AuthService().saveBadgeAndProgress(
-      module,
-      badgeName,
-      levelCompleted,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,108 +48,187 @@ class CompleteScreen extends StatelessWidget {
             ),
           ),
 
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 32.0,
-                  horizontal: 24.0,
+          _CompleteCard(
+            module: module,
+            levelCompleted: levelCompleted,
+            badgeName: badgeName,
+            badgeImage: badgeImage,
+            showContinueButton: showContinueButton,
+            onContinue: onContinue,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CompletePopup extends StatelessWidget {
+  const CompletePopup({
+    super.key,
+    required this.module,
+    required this.levelCompleted,
+    required this.badgeName,
+    required this.badgeImage,
+    this.showContinueButton = true,
+    this.onContinue,
+  });
+
+  final String module;
+  final int levelCompleted;
+  final String badgeName;
+  final String badgeImage;
+  final bool showContinueButton;
+  final VoidCallback? onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+            color: Colors.black.withOpacity(0.18),
+            child: _CompleteCard(
+              module: module,
+              levelCompleted: levelCompleted,
+              badgeName: badgeName,
+              badgeImage: badgeImage,
+              showContinueButton: showContinueButton,
+              onContinue: onContinue,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CompleteCard extends StatelessWidget {
+  const _CompleteCard({
+    required this.module,
+    required this.levelCompleted,
+    required this.badgeName,
+    required this.badgeImage,
+    required this.showContinueButton,
+    required this.onContinue,
+  });
+
+  final String module;
+  final int levelCompleted;
+  final String badgeName;
+  final String badgeImage;
+  final bool showContinueButton;
+  final VoidCallback? onContinue;
+
+  Future<void> _saveProgress() async {
+    await AuthService().saveBadgeAndProgress(
+      module,
+      badgeName,
+      levelCompleted,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 32.0,
+            horizontal: 24.0,
+          ),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1FFE2),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Congrats!',
+                style: GoogleFonts.quicksand(
+                  color: const Color(0xFF4A3728),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
                 ),
+              ),
+
+              const SizedBox(height: 24),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF1FFE2),
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
+                  color: const Color(0xFFDFF7B3),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Congrats!',
+                      'Earn Badge',
                       style: GoogleFonts.quicksand(
                         color: const Color(0xFF4A3728),
-                        fontSize: 28,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-
-                    const SizedBox(height: 24),
-
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 24.0),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFDFF7B3),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Earn Badge',
-                            style: GoogleFonts.quicksand(
-                              color: const Color(0xFF4A3728),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Image.asset(
-                            badgeImage,
-                            width: 130,
-                            fit: BoxFit.contain,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildActionButton(
-                          text: 'Back to Map',
-                          backgroundColor: const Color(0xFFFFB347),
-                          onTap: () async {
-                            await _saveProgress();
-
-                            if (context.mounted) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => _mapPageForModule(),
-                                ),
-                                (route) => route.isFirst,
-                              );
-                            }
-                          },
-                        ),
-                        if (showContinueButton)
-                          _buildActionButton(
-                            text: 'Continue',
-                            backgroundColor: const Color(0xFFF2D06B),
-                            onTap: () async {
-                              await _saveProgress();
-
-                              if (context.mounted) {
-                                onContinue?.call();
-                              }
-                            },
-                          ),
-                      ],
+                    const SizedBox(height: 16),
+                    Image.asset(
+                      badgeImage,
+                      width: 130,
+                      fit: BoxFit.contain,
                     ),
                   ],
                 ),
               ),
-            ),
+
+              const SizedBox(height: 32),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildActionButton(
+                    text: 'Back to Map',
+                    backgroundColor: const Color(0xFFFFB347),
+                    onTap: () async {
+                      await _saveProgress();
+
+                      if (context.mounted) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => _mapPageForModule(),
+                          ),
+                          (route) => route.isFirst,
+                        );
+                      }
+                    },
+                  ),
+                  if (showContinueButton)
+                    _buildActionButton(
+                      text: 'Continue',
+                      backgroundColor: const Color(0xFFF2D06B),
+                      onTap: () async {
+                        await _saveProgress();
+
+                        if (context.mounted) {
+                          onContinue?.call();
+                        }
+                      },
+                    ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
