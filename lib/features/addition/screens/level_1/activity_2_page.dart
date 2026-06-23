@@ -2,6 +2,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'activity_3_page.dart';
+
 class AdditionLevel1Activity2Page extends StatefulWidget {
   const AdditionLevel1Activity2Page({super.key});
 
@@ -80,9 +82,18 @@ class _AdditionLevel1Activity2PageState
       await _playAudio('great_job.mp3');
       await _playAudio('one_plus_three_equals_four.mp3');
 
-      if (mounted) {
-        setState(() => _processingTap = false);
-      }
+      if (!mounted) return;
+
+      setState(() => _processingTap = false);
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdditionLevel1Activity3Page(),
+        ),
+      );
       return;
     }
 
