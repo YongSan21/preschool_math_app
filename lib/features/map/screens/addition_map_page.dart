@@ -5,13 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../addition/screens/level_1/activity_1_page.dart';
 import '../../addition/screens/level_2/activity_1_page.dart';
+import '../../addition/screens/level_3/activity_1_page.dart';
 import '../widgets/level_node.dart';
 
 class AdditionMapPage extends StatefulWidget {
-  const AdditionMapPage({
-    super.key,
-    this.showIntroDialog = true,
-  });
+  const AdditionMapPage({super.key, this.showIntroDialog = true});
 
   final bool showIntroDialog;
 
@@ -29,10 +27,14 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
     if (!isUnlocked) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Level $level is locked! Finish previous levels first.'),
+          content: Text(
+            'Level $level is locked! Finish previous levels first.',
+          ),
           backgroundColor: const Color(0xFF4A3728),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -45,14 +47,14 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
       destination = const AdditionLevel1Activity1Page();
     } else if (level == 2) {
       destination = const AdditionLevel2Activity1Page();
+    } else if (level == 3) {
+      destination = const AdditionLevel3Activity1Page();
     }
 
     if (destination != null) {
       await Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => destination!,
-        ),
+        MaterialPageRoute(builder: (context) => destination!),
       );
 
       if (mounted) {
@@ -77,9 +79,7 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFF29694A),
-                    ),
+                    child: CircularProgressIndicator(color: Color(0xFF29694A)),
                   );
                 }
 
@@ -195,7 +195,9 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
+                                        color: Colors.black.withValues(
+                                          alpha: 0.1,
+                                        ),
                                         blurRadius: 10,
                                         offset: const Offset(0, 5),
                                       ),
@@ -230,8 +232,9 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
                                               child: Text(
                                                 'Tap anywhere to continue',
                                                 style: GoogleFonts.quicksand(
-                                                  color:
-                                                      const Color(0xFFAEAAAA),
+                                                  color: const Color(
+                                                    0xFFAEAAAA,
+                                                  ),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w700,
                                                 ),
