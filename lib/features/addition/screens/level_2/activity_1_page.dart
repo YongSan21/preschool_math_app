@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'activity_2_page.dart';
+
 class AdditionLevel2Activity1Page extends StatefulWidget {
   const AdditionLevel2Activity1Page({super.key});
 
@@ -101,6 +103,16 @@ class _AdditionLevel2Activity1PageState
       _activityComplete = true;
       _processingDrop = false;
     });
+
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AdditionLevel2Activity2Page(),
+      ),
+    );
   }
 
   Future<void> _playAudio(String fileName) async {
