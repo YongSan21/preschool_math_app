@@ -7,6 +7,7 @@ import '../../addition/screens/level_1/activity_1_page.dart';
 import '../../addition/screens/level_2/activity_1_page.dart';
 import '../../addition/screens/level_3/activity_1_page.dart';
 import '../../addition/screens/level_4/activity_1_page.dart';
+import '../../addition/screens/level_5/activity_1_page.dart';
 import '../widgets/level_node.dart';
 
 class AdditionMapPage extends StatefulWidget {
@@ -52,6 +53,8 @@ class _AdditionMapPageState extends State<AdditionMapPage> {
       destination = const AdditionLevel3Activity1Page();
     } else if (level == 4) {
       destination = const AdditionLevel4Activity1Page();
+    } else if (level == 5) {
+      destination = const AdditionLevel5Activity1Page();
     }
 
     if (destination != null) {
