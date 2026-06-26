@@ -71,6 +71,14 @@ flutter:
      - assets/images/counting_map.png
      - assets/images/addition_map.png
      - assets/images/subtraction_map.png
+     - assets/images/subtraction_background1.png
+     - assets/images/subtraction_background2.png
+     - assets/images/subtraction_background3.png
+     - assets/images/yellow_fish.png
+     - assets/images/orange_fish.png
+     - assets/images/pufferfish.png
+     - assets/images/pink_fish.png
+     - assets/images/blue_fish.png
      - assets/images/chicken.png
      - assets/images/cat_dialog.png
      - assets/images/counting_background1.png
@@ -124,6 +132,8 @@ flutter:
      - assets/images/count_badge3.png
      - assets/images/count_badge4.png
      - assets/images/count_badge5.png
+     - assets/images/subtract_badge1.png
+     - assets/images/subtract_badge2.png
 
      # Audio files
      - assets/audio/1.mp3
@@ -179,6 +189,18 @@ flutter:
      - assets/audio/ten_plus_six_equals_sixteen.mp3
      - assets/audio/nine_plus_eight_equals_seventeen.mp3
      - assets/audio/ten_plus_four_equals_fourteen.mp3
+     - assets/audio/take_away_one.mp3
+     - assets/audio/take_away_two.mp3
+     - assets/audio/take_away_three.mp3
+     - assets/audio/take_away_four.mp3
+     - assets/audio/take_away_five.mp3
+     - assets/audio/three_fish_left.mp3
+     - assets/audio/five_minus_two_equals_three.mp3
+     - assets/audio/four_minus_one_equals_three.mp3
+     - assets/audio/three_minus_two_equals_one.mp3
+     - assets/audio/ten_minus_five_equals_five.mp3
+     - assets/audio/eight_minus_four_equals_four.mp3
+     - assets/audio/six_minus_two_equals_four.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
