@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../subtraction/screens/level_1/activity_1_page.dart';
+import '../../subtraction/screens/level_2/activity_1_page.dart';
 import '../widgets/level_node.dart';
 
 class SubtractionMapPage extends StatefulWidget {
-  const SubtractionMapPage({
-    super.key,
-    this.showIntroDialog = true,
-  });
+  const SubtractionMapPage({super.key, this.showIntroDialog = true});
 
   final bool showIntroDialog;
 
@@ -27,18 +26,34 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
     if (!isUnlocked) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Level $level is locked! Finish previous levels first.'),
+          content: Text(
+            'Level $level is locked! Finish previous levels first.',
+          ),
           backgroundColor: const Color(0xFF4A3728),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           duration: const Duration(seconds: 2),
         ),
       );
       return;
     }
 
-    print('Navigate to Subtraction Level $level!');
-    // TODO: Replace with real subtraction level pages once they are created.
+    Widget? destination;
+
+    if (level == 1) {
+      destination = const SubtractionLevel1Activity1Page();
+    } else if (level == 2) {
+      destination = const SubtractionLevel2Activity1Page();
+    }
+
+    if (destination != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => destination!),
+      );
+    }
   }
 
   @override
@@ -57,9 +72,7 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFF29694A),
-                    ),
+                    child: CircularProgressIndicator(color: Color(0xFF29694A)),
                   );
                 }
 
@@ -84,8 +97,9 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
                       height: double.infinity,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image:
-                              AssetImage('assets/images/subtraction_map.png'),
+                          image: AssetImage(
+                            'assets/images/subtraction_map.png',
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -176,7 +190,9 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
+                                        color: Colors.black.withValues(
+                                          alpha: 0.1,
+                                        ),
                                         blurRadius: 10,
                                         offset: const Offset(0, 5),
                                       ),
@@ -211,8 +227,9 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
                                               child: Text(
                                                 'Tap anywhere to continue',
                                                 style: GoogleFonts.quicksand(
-                                                  color:
-                                                      const Color(0xFFAEAAAA),
+                                                  color: const Color(
+                                                    0xFFAEAAAA,
+                                                  ),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w700,
                                                 ),
