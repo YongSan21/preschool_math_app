@@ -79,6 +79,7 @@ flutter:
      - assets/images/pufferfish.png
      - assets/images/pink_fish.png
      - assets/images/blue_fish.png
+     - assets/images/red_fish.png
      - assets/images/chicken.png
      - assets/images/cat_dialog.png
      - assets/images/counting_background1.png
@@ -134,6 +135,7 @@ flutter:
      - assets/images/count_badge5.png
      - assets/images/subtract_badge1.png
      - assets/images/subtract_badge2.png
+     - assets/images/subtract_badge3.png
 
      # Audio files
      - assets/audio/1.mp3
@@ -194,6 +196,7 @@ flutter:
      - assets/audio/take_away_three.mp3
      - assets/audio/take_away_four.mp3
      - assets/audio/take_away_five.mp3
+     - assets/audio/take_away_six.mp3
      - assets/audio/three_fish_left.mp3
      - assets/audio/five_minus_two_equals_three.mp3
      - assets/audio/four_minus_one_equals_three.mp3
@@ -201,6 +204,9 @@ flutter:
      - assets/audio/ten_minus_five_equals_five.mp3
      - assets/audio/eight_minus_four_equals_four.mp3
      - assets/audio/six_minus_two_equals_four.mp3
+     - assets/audio/fifteen_minus_four_equals_eleven.mp3
+     - assets/audio/twelve_minus_three_equals_nine.mp3
+     - assets/audio/thirteen_minus_six_equals_seven.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
