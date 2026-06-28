@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:preschool_math_app/features/shared/screens/complete_screen.dart';
+import 'package:preschool_math_app/features/subtraction/screens/level_3/activity_1_page.dart';
 
 class SubtractionLevel2Activity3Page extends StatefulWidget {
   const SubtractionLevel2Activity3Page({super.key});
@@ -300,12 +301,20 @@ class _SubtractionLevel2Activity3PageState
                 ),
               ),
               if (_showCompletePopup)
-                const CompletePopup(
+                CompletePopup(
                   module: 'subtraction',
                   levelCompleted: 2,
                   badgeName: 'subtract_badge2',
                   badgeImage: 'assets/images/subtract_badge2.png',
-                  showContinueButton: false,
+                  onContinue: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const SubtractionLevel3Activity1Page(),
+                      ),
+                    );
+                  },
                 ),
             ],
           );
