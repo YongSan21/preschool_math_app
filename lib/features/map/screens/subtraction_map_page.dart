@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../subtraction/screens/level_1/activity_1_page.dart';
 import '../../subtraction/screens/level_2/activity_1_page.dart';
+import '../../subtraction/screens/level_3/activity_1_page.dart';
 import '../widgets/level_node.dart';
 
 class SubtractionMapPage extends StatefulWidget {
@@ -46,6 +47,8 @@ class _SubtractionMapPageState extends State<SubtractionMapPage> {
       destination = const SubtractionLevel1Activity1Page();
     } else if (level == 2) {
       destination = const SubtractionLevel2Activity1Page();
+    } else if (level == 3) {
+      destination = const SubtractionLevel3Activity1Page();
     }
 
     if (destination != null) {
