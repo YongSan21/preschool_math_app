@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Added Firestore
-import 'package:firebase_auth/firebase_auth.dart';     // Added Auth
+import 'package:firebase_auth/firebase_auth.dart'; // Added Auth
 
 import '../widgets/level_node.dart';
-import '../../auth/controllers/auth_controller.dart';
-import '../../auth/screens/login_page.dart';
 import '../../counting/screens/level_1/activity_1_page.dart';
 import '../../counting/screens/level_2/activity_1_page.dart';
 import '../../counting/screens/level_3/activity_1_page.dart';
@@ -14,10 +11,7 @@ import '../../counting/screens/level_4/activity_1_page.dart';
 import '../../counting/screens/level_5/activity_1_page.dart';
 
 class CountingMapPage extends StatefulWidget {
-  const CountingMapPage({
-    super.key,
-    this.showIntroDialog = true,
-  });
+  const CountingMapPage({super.key, this.showIntroDialog = true});
 
   final bool showIntroDialog;
 
@@ -62,17 +56,19 @@ class _CountingMapPageState extends State<CountingMapPage> {
           context,
           MaterialPageRoute(builder: (context) => const Level5Activity1Page()),
         );
-      } else {
-        print("Navigate to Level $level!");
       }
     } else {
       // Show locked message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Level $level is locked! Finish previous levels first.'),
+          content: Text(
+            'Level $level is locked! Finish previous levels first.',
+          ),
           backgroundColor: const Color(0xFF4A3728),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -90,11 +86,16 @@ class _CountingMapPageState extends State<CountingMapPage> {
       body: user == null
           ? const Center(child: Text("Error: Not logged in!"))
           : StreamBuilder<DocumentSnapshot>(
-              stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .snapshots(),
               builder: (context, snapshot) {
                 // Show a loading spinner while fetching player data
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: Color(0xFF29694A)));
+                  return const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF29694A)),
+                  );
                 }
 
                 // Safely extract levelsCompleted (defaults to 0 for new players)
@@ -129,48 +130,16 @@ class _CountingMapPageState extends State<CountingMapPage> {
                       ),
                     ),
 
-                    // ---------------------------------------------------------
-                    // 2. LOGOUT BUTTON (TOP RIGHT)
-                    // ---------------------------------------------------------
                     SafeArea(
                       child: Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0, right: 16.0),
-                          child: GestureDetector(
-                            onTap: () async {
-                              // 1. Tell Firebase to log the user out
-                              await context.read<AuthController>().logoutUser();
-                              
-                              // 2. Kick them back to Login and destroy the map history
-                              if (context.mounted) {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                                  (route) => false,
-                                );
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.logout_rounded,
-                                color: Color(0xFF4A3728),
-                                size: 26,
-                              ),
-                            ),
+                        alignment: Alignment.topLeft,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Colors.black,
+                            size: 32,
                           ),
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ),
                     ),
@@ -179,11 +148,11 @@ class _CountingMapPageState extends State<CountingMapPage> {
                     // 3. INTERACTIVE NODES (Calculated by % of screen)
                     // ---------------------------------------------------------
                     Positioned(
-                      left: size.width * 0.44, 
-                      top: size.height * 0.87, 
+                      left: size.width * 0.44,
+                      top: size.height * 0.87,
                       child: LevelNode(
-                        levelNumber: '1', 
-                        isUnlocked: 1 <= (levelsCompleted + 1), 
+                        levelNumber: '1',
+                        isUnlocked: 1 <= (levelsCompleted + 1),
                         onTap: () => _handleNodeTap('1', levelsCompleted),
                       ),
                     ),
@@ -191,7 +160,7 @@ class _CountingMapPageState extends State<CountingMapPage> {
                       left: size.width * 0.52,
                       top: size.height * 0.72,
                       child: LevelNode(
-                        levelNumber: '2', 
+                        levelNumber: '2',
                         isUnlocked: 2 <= (levelsCompleted + 1),
                         onTap: () => _handleNodeTap('2', levelsCompleted),
                       ),
@@ -200,7 +169,7 @@ class _CountingMapPageState extends State<CountingMapPage> {
                       left: size.width * 0.29,
                       top: size.height * 0.57,
                       child: LevelNode(
-                        levelNumber: '3', 
+                        levelNumber: '3',
                         isUnlocked: 3 <= (levelsCompleted + 1),
                         onTap: () => _handleNodeTap('3', levelsCompleted),
                       ),
@@ -209,7 +178,7 @@ class _CountingMapPageState extends State<CountingMapPage> {
                       left: size.width * 0.61,
                       top: size.height * 0.45,
                       child: LevelNode(
-                        levelNumber: '4', 
+                        levelNumber: '4',
                         isUnlocked: 4 <= (levelsCompleted + 1),
                         onTap: () => _handleNodeTap('4', levelsCompleted),
                       ),
@@ -218,7 +187,7 @@ class _CountingMapPageState extends State<CountingMapPage> {
                       left: size.width * 0.33,
                       top: size.height * 0.33,
                       child: LevelNode(
-                        levelNumber: '5', 
+                        levelNumber: '5',
                         isUnlocked: 5 <= (levelsCompleted + 1),
                         onTap: () => _handleNodeTap('5', levelsCompleted),
                       ),
@@ -237,25 +206,30 @@ class _CountingMapPageState extends State<CountingMapPage> {
                         child: Container(
                           width: double.infinity,
                           height: double.infinity,
-                          color: Colors.transparent, 
+                          color: Colors.transparent,
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
                               Positioned(
                                 bottom: 40,
                                 child: Container(
-                                  width: size.width * 0.90, 
+                                  width: size.width * 0.90,
                                   height: 140,
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 16,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
+                                        color: Colors.black.withValues(
+                                          alpha: 0.1,
+                                        ),
                                         blurRadius: 10,
                                         offset: const Offset(0, 5),
-                                      )
+                                      ),
                                     ],
                                   ),
                                   child: Row(
@@ -268,8 +242,10 @@ class _CountingMapPageState extends State<CountingMapPage> {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Let’s count!',
@@ -285,7 +261,9 @@ class _CountingMapPageState extends State<CountingMapPage> {
                                               child: Text(
                                                 'Tap anywhere to continue',
                                                 style: GoogleFonts.quicksand(
-                                                  color: const Color(0xFFAEAAAA),
+                                                  color: const Color(
+                                                    0xFFAEAAAA,
+                                                  ),
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w700,
                                                 ),
