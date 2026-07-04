@@ -112,6 +112,7 @@ flutter:
      - assets/images/home_subtraction.png
      - assets/images/home_icon.png
      - assets/images/trophy_icon.png
+     - assets/images/trophy.png
      - assets/images/addition_background1.png
      - assets/images/basket.png
      - assets/images/carrot.png
