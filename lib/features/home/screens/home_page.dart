@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../auth/controllers/auth_controller.dart';
 import '../../auth/screens/login_page.dart';
+import '../../badges/screens/badge_page.dart';
 import '../../map/screens/addition_map_page.dart';
 import '../../map/screens/counting_map_page.dart';
 import '../../map/screens/subtraction_map_page.dart';
@@ -32,9 +33,7 @@ class HomePage extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFF29694A),
-                    ),
+                    child: CircularProgressIndicator(color: Color(0xFF29694A)),
                   );
                 }
 
@@ -70,10 +69,7 @@ class HomePage extends StatelessWidget {
                               const SizedBox(height: 16),
                               _ProgressCard(
                                 badgesCollected: dashboard.totalBadgeCount,
-                                onViewBadges: () => _showComingSoon(
-                                  context,
-                                  'Badge screen coming soon!',
-                                ),
+                                onViewBadges: () => _openBadgePage(context),
                               ),
                               const SizedBox(height: 16),
                               Text(
@@ -124,8 +120,7 @@ class HomePage extends StatelessWidget {
                                 progressText:
                                     '${dashboard.subtractionLevels}/$levelsPerModule',
                                 backgroundColor: const Color(0xFFCAEEFF),
-                                imagePath:
-                                    'assets/images/home_subtraction.png',
+                                imagePath: 'assets/images/home_subtraction.png',
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -165,7 +160,7 @@ class HomePage extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
+                                    color: Colors.black.withValues(alpha: 0.15),
                                     blurRadius: 8,
                                     offset: const Offset(0, 4),
                                   ),
@@ -186,10 +181,7 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 12),
                           child: _BottomNavigationBar(
                             onHomeTap: () {},
-                            onBadgesTap: () => _showComingSoon(
-                              context,
-                              'Badge screen coming soon!',
-                            ),
+                            onBadgesTap: () => _openBadgePage(context),
                           ),
                         ),
                       ),
@@ -201,17 +193,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _showComingSoon(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color(0xFF4A3728),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
+  void _openBadgePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const BadgePage()),
     );
   }
-
 }
 
 class _ProgressCard extends StatelessWidget {
@@ -394,10 +381,7 @@ class _BottomNavigationBar extends StatelessWidget {
       height: 44,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(
-          width: 3,
-          color: const Color(0xFFD9D9D9),
-        ),
+        border: Border.all(width: 3, color: const Color(0xFFD9D9D9)),
         borderRadius: BorderRadius.circular(22),
       ),
       child: Row(
@@ -418,10 +402,7 @@ class _BottomNavigationBar extends StatelessWidget {
 }
 
 class _NavIconButton extends StatelessWidget {
-  const _NavIconButton({
-    required this.imagePath,
-    required this.onTap,
-  });
+  const _NavIconButton({required this.imagePath, required this.onTap});
 
   final String imagePath;
   final VoidCallback onTap;
@@ -472,7 +453,8 @@ class _DashboardProgress {
     final subtractionBadges = _asList(subtraction?['badges']);
     final legacyBadges = _asList(data['badges']);
 
-    final moduleBadgeCount = countingBadges.length +
+    final moduleBadgeCount =
+        countingBadges.length +
         additionBadges.length +
         subtractionBadges.length;
 
@@ -480,8 +462,9 @@ class _DashboardProgress {
       username: (data['username'] as String?)?.trim().isNotEmpty == true
           ? data['username'] as String
           : 'Farmer',
-      totalBadgeCount:
-          moduleBadgeCount > 0 ? moduleBadgeCount : legacyBadges.length,
+      totalBadgeCount: moduleBadgeCount > 0
+          ? moduleBadgeCount
+          : legacyBadges.length,
       countingLevels: _levelsForModule(
         counting,
         legacyLevels: data['levelsCompleted'],
