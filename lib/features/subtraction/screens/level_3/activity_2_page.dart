@@ -273,13 +273,13 @@ class _SubtractionLevel3Activity2PageState
                               right: 20,
                             ),
                             child: Text(
-                              'Tap 3 fish to take it away.',
+                              'Tap the 3 glowing fish to take them away.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                height: 2.6,
+                                height: 1.3,
                               ),
                             ),
                           ),
