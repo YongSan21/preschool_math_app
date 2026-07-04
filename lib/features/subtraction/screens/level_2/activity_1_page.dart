@@ -349,7 +349,7 @@ class _SubtractionLevel2Activity1PageState
                               right: 20,
                             ),
                             child: Text(
-                              'Drag away 5 fish.',
+                              'Drag away the 5 glowing fish.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: Colors.black,
