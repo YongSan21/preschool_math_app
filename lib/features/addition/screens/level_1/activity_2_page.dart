@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'activity_3_page.dart';
 
 class AdditionLevel1Activity2Page extends StatefulWidget {
@@ -38,9 +39,7 @@ class _AdditionLevel1Activity2PageState
 
   Future<void> _tapCarrot(int index) async {
     final isLeftCarrot = index == 0;
-    final canTap = isLeftCarrot
-        ? !_rightGroupUnlocked
-        : _rightGroupUnlocked;
+    final canTap = isLeftCarrot ? !_rightGroupUnlocked : _rightGroupUnlocked;
 
     if (_processingTap ||
         _activityComplete ||
@@ -129,8 +128,7 @@ class _AdditionLevel1Activity2PageState
         builder: (context, constraints) {
           final width = constraints.maxWidth;
           final height = constraints.maxHeight;
-          final carrotHeight =
-              (height * 0.095).clamp(62.0, 82.0).toDouble();
+          final carrotHeight = (height * 0.095).clamp(62.0, 82.0).toDouble();
 
           return Stack(
             children: [
@@ -147,6 +145,15 @@ class _AdditionLevel1Activity2PageState
                       size: 32,
                     ),
                     onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 2),
                   ),
                 ),
               ),
@@ -213,7 +220,8 @@ class _AdditionLevel1Activity2PageState
                       final index = groupIndex + 1;
                       return _TappableCarrot(
                         height: carrotHeight,
-                        active: _rightGroupUnlocked &&
+                        active:
+                            _rightGroupUnlocked &&
                             !_activityComplete &&
                             !_tappedCarrots[index],
                         bouncing: _bouncingIndex == index,
@@ -275,17 +283,15 @@ class _AdditionLevel1Activity2PageState
 
   Widget _equationTerm(String value) {
     return Expanded(
-      child: Center(
-        child: Text(value, style: _equationStyle),
-      ),
+      child: Center(child: Text(value, style: _equationStyle)),
     );
   }
 
   TextStyle get _equationStyle => GoogleFonts.quicksand(
-        color: const Color(0xFF4A3728),
-        fontSize: 36,
-        fontWeight: FontWeight.w700,
-      );
+    color: const Color(0xFF4A3728),
+    fontSize: 36,
+    fontWeight: FontWeight.w700,
+  );
 }
 
 class _TappableCarrot extends StatelessWidget {
@@ -334,10 +340,7 @@ class _TappableCarrot extends StatelessWidget {
           child: AnimatedSlide(
             offset: bouncing ? const Offset(0, -0.18) : Offset.zero,
             duration: const Duration(milliseconds: 180),
-            child: Image.asset(
-              'assets/images/carrot.png',
-              fit: BoxFit.contain,
-            ),
+            child: Image.asset('assets/images/carrot.png', fit: BoxFit.contain),
           ),
         ),
       ),

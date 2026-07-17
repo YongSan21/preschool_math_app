@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:preschool_math_app/features/addition/screens/level_2/activity_1_page.dart';
 import 'package:preschool_math_app/features/shared/screens/complete_screen.dart';
+import 'package:preschool_math_app/features/shared/widgets/activity_progress_bar.dart';
 
 class AdditionLevel1Activity3Page extends StatefulWidget {
   const AdditionLevel1Activity3Page({super.key});
@@ -185,6 +186,15 @@ class _AdditionLevel1Activity3PageState
                   ),
                 ),
               ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 3),
+                  ),
+                ),
+              ),
               Positioned(
                 top: height * 0.305,
                 left: equationLeft,
@@ -224,8 +234,9 @@ class _AdditionLevel1Activity3PageState
               ),
               ...List.generate(4, (index) {
                 final isFirstGroup = index < 2;
-                final visible =
-                    isFirstGroup ? _firstGroupVisible : _secondGroupVisible;
+                final visible = isFirstGroup
+                    ? _firstGroupVisible
+                    : _secondGroupVisible;
                 final groupX = isFirstGroup ? leftGroupX : rightGroupX;
                 final groupIndex = index % 2;
                 final startX = groupX + (groupIndex * orangeSize * 1.05);
@@ -376,24 +387,19 @@ class _AdditionLevel1Activity3PageState
 
   Widget _equationTerm(String value) {
     return Expanded(
-      child: Center(
-        child: Text(value, style: _equationStyle),
-      ),
+      child: Center(child: Text(value, style: _equationStyle)),
     );
   }
 
   TextStyle get _equationStyle => GoogleFonts.quicksand(
-        color: const Color(0xFF4A3728),
-        fontSize: 36,
-        fontWeight: FontWeight.w700,
-      );
+    color: const Color(0xFF4A3728),
+    fontSize: 36,
+    fontWeight: FontWeight.w700,
+  );
 }
 
 class _AnimatedOrange extends StatelessWidget {
-  const _AnimatedOrange({
-    required this.bouncing,
-    required this.countLabel,
-  });
+  const _AnimatedOrange({required this.bouncing, required this.countLabel});
 
   final bool bouncing;
   final String? countLabel;

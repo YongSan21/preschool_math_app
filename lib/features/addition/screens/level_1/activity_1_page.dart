@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'activity_2_page.dart';
 
 class AdditionLevel1Activity1Page extends StatefulWidget {
@@ -161,6 +162,15 @@ class _AdditionLevel1Activity1PageState
                       size: 32,
                     ),
                     onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 1),
                   ),
                 ),
               ),
