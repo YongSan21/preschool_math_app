@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'activity_2_page.dart';
 
 class AdditionLevel2Activity1Page extends StatefulWidget {
@@ -168,8 +169,17 @@ class _AdditionLevel2Activity1PageState
                   ),
                 ),
               ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 1),
+                  ),
+                ),
+              ),
               Positioned(
-                top: height * 0.12,
+                top: height * 0.16,
                 left: 24,
                 right: 24,
                 child: AnimatedOpacity(
@@ -326,21 +336,17 @@ class _AppleTreeGroup extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final appleSize =
-              (constraints.maxWidth * 0.19).clamp(28.0, 40.0).toDouble();
+          final appleSize = (constraints.maxWidth * 0.19)
+              .clamp(28.0, 40.0)
+              .toDouble();
 
           return Stack(
             clipBehavior: Clip.none,
             children: [
               Positioned.fill(
-                child: Image.asset(
-                  'assets/images/tree.png',
-                  fit: BoxFit.fill,
-                ),
+                child: Image.asset('assets/images/tree.png', fit: BoxFit.fill),
               ),
-              for (var index = placedApples;
-                  index < totalApples;
-                  index++)
+              for (var index = placedApples; index < totalApples; index++)
                 Positioned(
                   left: constraints.maxWidth * positions[index].dx,
                   top: constraints.maxHeight * positions[index].dy,

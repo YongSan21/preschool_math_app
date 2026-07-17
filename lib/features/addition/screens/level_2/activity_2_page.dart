@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'activity_3_page.dart';
 
 class AdditionLevel2Activity2Page extends StatefulWidget {
@@ -38,9 +39,7 @@ class _AdditionLevel2Activity2PageState
 
   Future<void> _tapOrange(int index) async {
     final isLeftOrange = index < 3;
-    final canTap = isLeftOrange
-        ? !_rightGroupUnlocked
-        : _rightGroupUnlocked;
+    final canTap = isLeftOrange ? !_rightGroupUnlocked : _rightGroupUnlocked;
 
     if (_processingTap ||
         _activityComplete ||
@@ -127,8 +126,7 @@ class _AdditionLevel2Activity2PageState
         builder: (context, constraints) {
           final width = constraints.maxWidth;
           final height = constraints.maxHeight;
-          final orangeSize =
-              (width * 0.165).clamp(54.0, 68.0).toDouble();
+          final orangeSize = (width * 0.165).clamp(54.0, 68.0).toDouble();
 
           return Stack(
             children: [
@@ -148,6 +146,15 @@ class _AdditionLevel2Activity2PageState
                       size: 32,
                     ),
                     onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 2),
                   ),
                 ),
               ),
@@ -195,7 +202,8 @@ class _AdditionLevel2Activity2PageState
                   children: List.generate(3, (index) {
                     return _TappableOrange(
                       size: orangeSize,
-                      active: !_rightGroupUnlocked &&
+                      active:
+                          !_rightGroupUnlocked &&
                           !_activityComplete &&
                           !_tappedOranges[index],
                       bouncing: _bouncingIndex == index,
@@ -218,7 +226,8 @@ class _AdditionLevel2Activity2PageState
                       final index = groupIndex + 3;
                       return _TappableOrange(
                         size: orangeSize,
-                        active: _rightGroupUnlocked &&
+                        active:
+                            _rightGroupUnlocked &&
                             !_activityComplete &&
                             !_tappedOranges[index],
                         bouncing: _bouncingIndex == index,
@@ -280,17 +289,15 @@ class _AdditionLevel2Activity2PageState
 
   Widget _equationTerm(String value) {
     return Expanded(
-      child: Center(
-        child: Text(value, style: _equationStyle),
-      ),
+      child: Center(child: Text(value, style: _equationStyle)),
     );
   }
 
   TextStyle get _equationStyle => GoogleFonts.quicksand(
-        color: const Color(0xFF4A3728),
-        fontSize: 36,
-        fontWeight: FontWeight.w700,
-      );
+    color: const Color(0xFF4A3728),
+    fontSize: 36,
+    fontWeight: FontWeight.w700,
+  );
 }
 
 class _TappableOrange extends StatelessWidget {
@@ -339,10 +346,7 @@ class _TappableOrange extends StatelessWidget {
           child: AnimatedSlide(
             offset: bouncing ? const Offset(0, -0.18) : Offset.zero,
             duration: const Duration(milliseconds: 180),
-            child: Image.asset(
-              'assets/images/orange.png',
-              fit: BoxFit.contain,
-            ),
+            child: Image.asset('assets/images/orange.png', fit: BoxFit.contain),
           ),
         ),
       ),
