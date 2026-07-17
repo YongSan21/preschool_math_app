@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:preschool_math_app/features/addition/screens/level_5/activity_1_page.dart';
 import 'package:preschool_math_app/features/shared/screens/complete_screen.dart';
+import 'package:preschool_math_app/features/shared/widgets/activity_progress_bar.dart';
 
 class AdditionLevel4Activity3Page extends StatefulWidget {
   const AdditionLevel4Activity3Page({super.key});
@@ -207,6 +208,15 @@ class _AdditionLevel4Activity3PageState
                       size: 32,
                     ),
                     onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 3),
                   ),
                 ),
               ),

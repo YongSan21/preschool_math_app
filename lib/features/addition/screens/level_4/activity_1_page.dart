@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 
 import 'activity_2_page.dart';
 
@@ -175,8 +176,17 @@ class _AdditionLevel4Activity1PageState
                   ),
                 ),
               ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                    child: ActivityProgressBar(currentActivity: 1),
+                  ),
+                ),
+              ),
               Positioned(
-                top: height * 0.105,
+                top: height * 0.14,
                 left: 16,
                 right: 16,
                 child: AnimatedOpacity(
