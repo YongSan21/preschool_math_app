@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -58,7 +59,9 @@ class _Level4Activity3PageState extends State<Level4Activity3Page> {
         }
 
         setState(() => _currentlyCountingIndex = null);
-        await _audioPlayer.play(AssetSource('audio/there_are_ninteen_cows.mp3'));
+        await _audioPlayer.play(
+          AssetSource('audio/there_are_ninteen_cows.mp3'),
+        );
         await Future.delayed(const Duration(milliseconds: 3000));
 
         if (mounted) {
@@ -73,7 +76,7 @@ class _Level4Activity3PageState extends State<Level4Activity3Page> {
         await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
       }
     } catch (e) {
-      print('Audio error: $e');
+      debugPrint('Audio error: $e');
       if (mounted) {
         setState(() => _isLocked = false);
       }
@@ -150,15 +153,32 @@ class _Level4Activity3PageState extends State<Level4Activity3Page> {
   Widget _buildGreyedWrongButton() {
     return AnimatedCrossFade(
       duration: const Duration(milliseconds: 500),
-      crossFadeState:
-          _isGreyedOut ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      crossFadeState: _isGreyedOut
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
       firstChild: _buildNumberButton(_wrongNumber),
       secondChild: ColorFiltered(
         colorFilter: const ColorFilter.matrix(<double>[
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0, 0, 0, 1, 0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
         ]),
         child: _buildNumberButton(_wrongNumber, isDisabled: true),
       ),
@@ -190,6 +210,15 @@ class _Level4Activity3PageState extends State<Level4Activity3Page> {
                   size: 32,
                 ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 3),
               ),
             ),
           ),
