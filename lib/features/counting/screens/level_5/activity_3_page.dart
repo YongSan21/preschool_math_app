@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -60,17 +61,19 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Level5CompleteScreen()),
+            MaterialPageRoute(
+              builder: (context) => const Level5CompleteScreen(),
+            ),
           );
         }
       } catch (e) {
-        print('Audio error: $e');
+        debugPrint('Audio error: $e');
       }
     } else {
       try {
         await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
       } catch (e) {
-        print('Audio error: $e');
+        debugPrint('Audio error: $e');
       }
     }
   }
@@ -136,11 +139,18 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
             ),
           ),
           SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 3),
+              ),
+            ),
+          ),
+          SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 170),
-              child: Stack(
-                children: _bubbles.map(_buildBubble).toList(),
-              ),
+              child: Stack(children: _bubbles.map(_buildBubble).toList()),
             ),
           ),
           SafeArea(
@@ -193,10 +203,7 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
 }
 
 class _BubbleItem {
-  const _BubbleItem({
-    required this.number,
-    required this.alignment,
-  });
+  const _BubbleItem({required this.number, required this.alignment});
 
   final int number;
   final Alignment alignment;

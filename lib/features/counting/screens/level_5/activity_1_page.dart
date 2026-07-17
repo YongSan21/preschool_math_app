@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,7 +16,6 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
   late AudioPlayer _audioPlayer;
 
   final int _targetBirds = 5;
-  final int _totalBirds = 12;
   final List<int?> _birdNumbers = List.filled(12, null);
 
   int _currentCount = 0;
@@ -51,7 +51,7 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
       await _audioPlayer.play(AssetSource('audio/$tappedNumber.mp3'));
       await Future.delayed(const Duration(milliseconds: 800));
     } catch (e) {
-      print('Audio error: $e');
+      debugPrint('Audio error: $e');
     }
 
     if (_currentCount == _targetBirds) {
@@ -71,11 +71,13 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Level5Activity2Page()),
+            MaterialPageRoute(
+              builder: (context) => const Level5Activity2Page(),
+            ),
           );
         }
       } catch (e) {
-        print('Audio error: $e');
+        debugPrint('Audio error: $e');
       }
     }
   }
@@ -111,7 +113,11 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
-              transform: Matrix4.translationValues(0, isTapped ? -12.0 : 0.0, 0),
+              transform: Matrix4.translationValues(
+                0,
+                isTapped ? -12.0 : 0.0,
+                0,
+              ),
               child: Image.asset(
                 useBlueBird
                     ? 'assets/images/blue_bird.png'
@@ -151,6 +157,15 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
                   size: 32,
                 ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 1),
               ),
             ),
           ),

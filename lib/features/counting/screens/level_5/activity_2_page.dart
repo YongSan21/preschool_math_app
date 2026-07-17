@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,7 +13,8 @@ class Level5Activity2Page extends StatefulWidget {
 }
 
 class _Level5Activity2PageState extends State<Level5Activity2Page> {
-  late AudioPlayer _audioPlayer;
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  late final Future<void> _audioReady;
 
   final Set<int> _missingNumbers = {3, 7, 14, 16};
   final List<int> _choices = [3, 7, 14, 16];
@@ -41,12 +43,15 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
 
   final Map<int, int> _filledNumbers = {};
   bool _isLocked = false;
+  bool _isCheckingDrop = false;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
-    _audioPlayer.setReleaseMode(ReleaseMode.stop);
+    _audioReady = Future.wait([
+      _audioPlayer.setPlayerMode(PlayerMode.lowLatency),
+      _audioPlayer.setReleaseMode(ReleaseMode.stop),
+    ]);
   }
 
   @override
@@ -59,7 +64,9 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
     required int boxNumber,
     required int droppedNumber,
   }) async {
-    if (_isLocked || _filledNumbers.containsKey(boxNumber)) return;
+    if (_isLocked || _isCheckingDrop || _filledNumbers.containsKey(boxNumber)) {
+      return;
+    }
 
     if (boxNumber == droppedNumber) {
       setState(() {
@@ -70,10 +77,11 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
         await _handleActivityComplete();
       }
     } else {
-      try {
-        await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
-      } catch (e) {
-        print('Audio error: $e');
+      setState(() => _isCheckingDrop = true);
+      await _playAudio('try_again.mp3');
+
+      if (mounted) {
+        setState(() => _isCheckingDrop = false);
       }
     }
   }
@@ -85,8 +93,7 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
       await Future.delayed(const Duration(milliseconds: 400));
       if (!mounted) return;
 
-      await _audioPlayer.play(AssetSource('audio/great_job.mp3'));
-      await Future.delayed(const Duration(milliseconds: 1500));
+      await _playAudio('great_job.mp3');
 
       if (mounted) {
         Navigator.pushReplacement(
@@ -95,7 +102,22 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
         );
       }
     } catch (e) {
-      print('Audio error: $e');
+      debugPrint('Audio error: $e');
+    }
+  }
+
+  Future<void> _playAudio(String fileName) async {
+    try {
+      await _audioReady;
+      await _audioPlayer.play(AssetSource('audio/$fileName'));
+      await Future<void>.delayed(
+        fileName == 'great_job.mp3'
+            ? const Duration(milliseconds: 1500)
+            : const Duration(milliseconds: 1100),
+      );
+      await _audioPlayer.stop();
+    } catch (e) {
+      debugPrint('Audio error: $e');
     }
   }
 
@@ -105,12 +127,10 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
 
     if (isMissing) {
       return DragTarget<int>(
-        onWillAcceptWithDetails: (_) => !_isLocked && filledNumber == null,
+        onWillAcceptWithDetails: (_) =>
+            !_isLocked && !_isCheckingDrop && filledNumber == null,
         onAcceptWithDetails: (details) {
-          _handleDrop(
-            boxNumber: number,
-            droppedNumber: details.data,
-          );
+          _handleDrop(boxNumber: number, droppedNumber: details.data);
         },
         builder: (context, candidateData, rejectedData) {
           return _buildNumberBox(
@@ -122,10 +142,7 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
       );
     }
 
-    return _buildNumberBox(
-      number: number,
-      color: _numberColors[number]!,
-    );
+    return _buildNumberBox(number: number, color: _numberColors[number]!);
   }
 
   Widget _buildNumberBox({
@@ -184,14 +201,8 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
 
     return Draggable<int>(
       data: number,
-      feedback: Material(
-        color: Colors.transparent,
-        child: child,
-      ),
-      childWhenDragging: Opacity(
-        opacity: 0.25,
-        child: child,
-      ),
+      feedback: Material(color: Colors.transparent, child: child),
+      childWhenDragging: Opacity(opacity: 0.25, child: child),
       child: child,
     );
   }
@@ -227,6 +238,15 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
                   size: 32,
                 ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 2),
               ),
             ),
           ),
