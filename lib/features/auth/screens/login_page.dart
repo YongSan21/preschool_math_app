@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Value',
+                                hintText: 'Enter your username',
                                 hintStyle: GoogleFonts.quicksand(
                                   color: const Color(0xFFB3B3B3), 
                                   fontWeight: FontWeight.w400,
@@ -206,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Value',
+                                hintText: 'Enter at least 6 characters',
                                 hintStyle: GoogleFonts.quicksand(
                                   color: const Color(0xFFB3B3B3),
                                   fontWeight: FontWeight.w400,
