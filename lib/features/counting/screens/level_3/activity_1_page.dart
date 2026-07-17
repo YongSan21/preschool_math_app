@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -59,7 +60,7 @@ class _Level3Activity1PageState extends State<Level3Activity1Page> {
         _handleActivityComplete();
       }
     } catch (e) {
-      print('Audio error: $e');
+      debugPrint('Audio error: $e');
       if (mounted) {
         setState(() => _isLocked = false);
       }
@@ -83,7 +84,7 @@ class _Level3Activity1PageState extends State<Level3Activity1Page> {
         );
       }
     } catch (e) {
-      print('Audio error: $e');
+      debugPrint('Audio error: $e');
       if (mounted) {
         setState(() => _isLocked = false);
       }
@@ -122,8 +123,11 @@ class _Level3Activity1PageState extends State<Level3Activity1Page> {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
-              transform:
-                  Matrix4.translationValues(0, isBouncing ? -15.0 : 0.0, 0),
+              transform: Matrix4.translationValues(
+                0,
+                isBouncing ? -15.0 : 0.0,
+                0,
+              ),
               child: Image.asset(
                 useBrownRabbit
                     ? 'assets/images/brown_rabbit.png'
@@ -161,6 +165,15 @@ class _Level3Activity1PageState extends State<Level3Activity1Page> {
                   size: 32,
                 ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 1),
               ),
             ),
           ),
