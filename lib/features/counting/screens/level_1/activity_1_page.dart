@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import '../../widgets/countable_rabbit.dart';
 import 'activity_2_page.dart';
 
@@ -23,10 +24,10 @@ class _Activity1PageState extends State<Activity1Page> {
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-    
-    // This is the magic line! It tells the player to instantly reset 
+
+    // This is the magic line! It tells the player to instantly reset
     // after a sound effect finishes, keeping it perfectly ready for the next tap.
-    _audioPlayer.setReleaseMode(ReleaseMode.stop); 
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
   }
 
   // 3. Forcefully and synchronously destroy the player
@@ -50,7 +51,7 @@ class _Activity1PageState extends State<Activity1Page> {
       try {
         await _audioPlayer.play(AssetSource('audio/$_currentCount.mp3'));
       } catch (e) {
-        print("Audio error: $e");
+        debugPrint("Audio error: $e");
       }
 
       // 2. If it is the final rabbit, trigger the winning sequence
@@ -59,13 +60,13 @@ class _Activity1PageState extends State<Activity1Page> {
         await Future.delayed(const Duration(seconds: 1));
 
         // Safety check: Did the user hit the back button during that 1 second?
-        if (!mounted) return; 
+        if (!mounted) return;
 
         // Play the celebratory audio
         try {
           await _audioPlayer.play(AssetSource('audio/great_job_counting.mp3'));
         } catch (e) {
-          print("Audio error: $e");
+          debugPrint("Audio error: $e");
         }
 
         // Wait 3.5 seconds to let the "Great job, let's do more counting" audio finish.
@@ -108,8 +109,21 @@ class _Activity1PageState extends State<Activity1Page> {
             child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 32),
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                  size: 32,
+                ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 1),
               ),
             ),
           ),
@@ -121,7 +135,7 @@ class _Activity1PageState extends State<Activity1Page> {
             alignment: Alignment.center,
             child: Padding(
               // Pushes the row slightly down to align with the pond in your background
-              padding: const EdgeInsets.only(top: 10.0), 
+              padding: const EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(5, (index) {
@@ -141,14 +155,19 @@ class _Activity1PageState extends State<Activity1Page> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(
+                  bottom: 24.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
                 child: Container(
                   width: double.infinity,
                   height: 180, // Keeps the text box proportional
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/cat_dialog.png'),
-                      fit: BoxFit.contain, // Ensures the image doesn't stretch weirdly
+                      fit: BoxFit
+                          .contain, // Ensures the image doesn't stretch weirdly
                       alignment: Alignment.bottomCenter,
                     ),
                   ),
@@ -156,7 +175,11 @@ class _Activity1PageState extends State<Activity1Page> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       // Padding to position the text exactly inside the white bubble area of the image
-                      padding: const EdgeInsets.only(bottom: 28.0, left: 20.0, right: 20.0),
+                      padding: const EdgeInsets.only(
+                        bottom: 28.0,
+                        left: 20.0,
+                        right: 20.0,
+                      ),
                       child: Text(
                         'Can you tap the rabbits to count them?',
                         textAlign: TextAlign.center,

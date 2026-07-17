@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'level_1_complete_screen.dart';
 
 class Activity3Page extends StatefulWidget {
@@ -23,7 +24,7 @@ class _Activity3PageState extends State<Activity3Page> {
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
-    _audioPlayer.setReleaseMode(ReleaseMode.stop); 
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
   }
 
   @override
@@ -51,7 +52,7 @@ class _Activity3PageState extends State<Activity3Page> {
         // 2. Loop through and bounce all 5 ponies!
         for (int i = 0; i < 5; i++) {
           setState(() => _currentlyCountingIndex = i);
-          
+
           // Reusing the audio files from Activity 1
           await _audioPlayer.play(AssetSource('audio/${i + 1}.mp3'));
           await Future.delayed(const Duration(milliseconds: 800));
@@ -67,16 +68,17 @@ class _Activity3PageState extends State<Activity3Page> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Level1CompleteScreen()),
+            MaterialPageRoute(
+              builder: (context) => const Level1CompleteScreen(),
+            ),
           );
         }
-
       } else {
         // Wrong Answer
         await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
       }
     } catch (e) {
-      print("Audio error: $e");
+      debugPrint("Audio error: $e");
     }
   }
 
@@ -104,7 +106,7 @@ class _Activity3PageState extends State<Activity3Page> {
         width: 80,
         height: 70,
         decoration: BoxDecoration(
-          color: const Color(0xFF29694A), 
+          color: const Color(0xFF29694A),
           borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
@@ -117,7 +119,7 @@ class _Activity3PageState extends State<Activity3Page> {
         child: Center(
           child: Text(
             number.toString(),
-            style: GoogleFonts.inter( 
+            style: GoogleFonts.inter(
               color: const Color(0xFFF5F5F5),
               fontSize: 36,
               fontWeight: FontWeight.w600,
@@ -154,8 +156,21 @@ class _Activity3PageState extends State<Activity3Page> {
             child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 32),
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                  size: 32,
+                ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 3),
               ),
             ),
           ),
@@ -176,7 +191,7 @@ class _Activity3PageState extends State<Activity3Page> {
                     }),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   // --- ROW 2: 2 Ponies (Indices 3, 4) ---
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +200,7 @@ class _Activity3PageState extends State<Activity3Page> {
                       return _buildAnimatedPony(index + 3, 10.0);
                     }),
                   ),
-                  
+
                   const SizedBox(height: 60),
 
                   // --- NUMBER BUTTONS ---
@@ -195,55 +210,81 @@ class _Activity3PageState extends State<Activity3Page> {
                       // THE WRONG BUTTON (3) - Fades to grey
                       AnimatedCrossFade(
                         duration: const Duration(milliseconds: 500),
-                        crossFadeState: _isGreyedOut ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                        crossFadeState: _isGreyedOut
+                            ? CrossFadeState.showSecond
+                            : CrossFadeState.showFirst,
                         firstChild: _buildNumberButton(3),
                         secondChild: ColorFiltered(
                           // Using the transparent-safe matrix from Activity 2!
                           colorFilter: const ColorFilter.matrix(<double>[
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0,      0,      0,      1, 0,
+                            0.2126,
+                            0.7152,
+                            0.0722,
+                            0,
+                            0,
+                            0.2126,
+                            0.7152,
+                            0.0722,
+                            0,
+                            0,
+                            0.2126,
+                            0.7152,
+                            0.0722,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0,
                           ]),
                           child: _buildNumberButton(3, isDisabled: true),
                         ),
                       ),
-                      
-                      const SizedBox(width: 60), 
-                      
+
+                      const SizedBox(width: 60),
+
                       // THE CORRECT BUTTON (5)
                       _buildNumberButton(5),
                     ],
                   ),
-                  
-                  const SizedBox(height: 90), 
+
+                  const SizedBox(height: 90),
                 ],
               ),
             ),
           ),
 
           // ---------------------------------------------------------
-          // 4. CAT DIALOG 
+          // 4. CAT DIALOG
           // ---------------------------------------------------------
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(
+                  bottom: 24.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
                 child: Container(
                   width: double.infinity,
-                  height: 180, 
+                  height: 180,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/cat_dialog.png'),
-                      fit: BoxFit.contain, 
+                      fit: BoxFit.contain,
                       alignment: Alignment.bottomCenter,
                     ),
                   ),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 28.0, left: 20.0, right: 20.0),
+                      padding: const EdgeInsets.only(
+                        bottom: 28.0,
+                        left: 20.0,
+                        right: 20.0,
+                      ),
                       child: Text(
                         'Tap the correct number of ponies.',
                         textAlign: TextAlign.center,
