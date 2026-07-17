@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/widgets/activity_progress_bar.dart';
 import 'activity_2_page.dart';
 
 class Level2Activity1Page extends StatefulWidget {
@@ -12,14 +13,14 @@ class Level2Activity1Page extends StatefulWidget {
 
 class _Level2Activity1PageState extends State<Level2Activity1Page> {
   late AudioPlayer _audioPlayer;
-  
+
   // Game State
   int _currentCount = 0;
   final int _totalCows = 10;
-  
+
   // This array stores exactly which number was assigned to which cow based on tap order!
-  final List<int?> _cowNumbers = List.filled(10, null); 
-  
+  final List<int?> _cowNumbers = List.filled(10, null);
+
   bool _isLocked = false;
   int? _bouncingCowIndex; // Tracks which cow is jumping right now
 
@@ -43,17 +44,18 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
     setState(() {
       _isLocked = true;
       _currentCount++;
-      _cowNumbers[index] = _currentCount; // Give this cow the next available number!
+      _cowNumbers[index] =
+          _currentCount; // Give this cow the next available number!
       _bouncingCowIndex = index;
     });
 
     try {
       // Play the specific number audio (1.mp3 up to 10.mp3)
       await _audioPlayer.play(AssetSource('audio/$_currentCount.mp3'));
-      
+
       // Wait for the audio and bounce to finish before letting them tap the next one
       await Future.delayed(const Duration(milliseconds: 800));
-      
+
       if (mounted) {
         setState(() {
           _bouncingCowIndex = null; // Reset the bounce
@@ -66,14 +68,14 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
         _handleLevelComplete();
       }
     } catch (e) {
-      print("Audio error: $e");
+      debugPrint("Audio error: $e");
       setState(() => _isLocked = false);
     }
   }
 
   void _handleLevelComplete() async {
     setState(() => _isLocked = true);
-    
+
     try {
       // Wait 1 second to let the word "Ten" completely finish playing
       await Future.delayed(const Duration(seconds: 1));
@@ -81,7 +83,7 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
 
       // Play the celebratory audio matching Level 1
       await _audioPlayer.play(AssetSource('audio/great_job_counting.mp3'));
-      
+
       // Wait 3.5 seconds to let the audio finish.
       await Future.delayed(const Duration(milliseconds: 3500));
 
@@ -93,7 +95,7 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
         );
       }
     } catch (e) {
-      print("Audio error: $e");
+      debugPrint("Audio error: $e");
     }
   }
 
@@ -121,21 +123,25 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
                 assignedNumber?.toString() ?? '', // Show the dynamic number!
                 style: GoogleFonts.quicksand(
                   color: const Color(0xFF4A3728),
-                  fontSize: 28, 
+                  fontSize: 28,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
             const SizedBox(height: 4),
-            
+
             // 2. The Cow (Bounces up 15 pixels when tapped)
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
-              transform: Matrix4.translationValues(0, isBouncing ? -15.0 : 0.0, 0),
+              transform: Matrix4.translationValues(
+                0,
+                isBouncing ? -15.0 : 0.0,
+                0,
+              ),
               child: Image.asset(
                 'assets/images/cow.png',
-                width: 75, 
+                width: 75,
                 fit: BoxFit.contain,
               ),
             ),
@@ -158,8 +164,21 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
             child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back_rounded, color: Colors.black, size: 32),
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                  size: 32,
+                ),
                 onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(56, 10, 16, 0),
+                child: ActivityProgressBar(currentActivity: 1),
               ),
             ),
           ),
@@ -177,18 +196,25 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
                     // --- ROW 1: Cows 0 to 4 ---
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(5, (index) => _buildAnimatedCow(index)),
+                      children: List.generate(
+                        5,
+                        (index) => _buildAnimatedCow(index),
+                      ),
                     ),
-                    
+
                     const SizedBox(height: 40), // Space between rows
-                    
                     // --- ROW 2: Cows 5 to 9 ---
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(5, (index) => _buildAnimatedCow(index + 5)),
+                      children: List.generate(
+                        5,
+                        (index) => _buildAnimatedCow(index + 5),
+                      ),
                     ),
-                    
-                    const SizedBox(height: 120), // Buffer space for the cat dialog
+
+                    const SizedBox(
+                      height: 120,
+                    ), // Buffer space for the cat dialog
                   ],
                 ),
               ),
@@ -196,27 +222,35 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
           ),
 
           // ---------------------------------------------------------
-          // 3. CAT DIALOG 
+          // 3. CAT DIALOG
           // ---------------------------------------------------------
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(
+                  bottom: 24.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
                 child: Container(
                   width: double.infinity,
-                  height: 180, 
+                  height: 180,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/cat_dialog.png'),
-                      fit: BoxFit.contain, 
+                      fit: BoxFit.contain,
                       alignment: Alignment.bottomCenter,
                     ),
                   ),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 28.0, left: 20.0, right: 20.0),
+                      padding: const EdgeInsets.only(
+                        bottom: 28.0,
+                        left: 20.0,
+                        right: 20.0,
+                      ),
                       child: Text(
                         'Can you tap the cows to count them?',
                         textAlign: TextAlign.center,
