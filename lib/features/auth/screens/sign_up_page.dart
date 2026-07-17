@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Value',
+                                hintText: 'Enter your username',
                                 hintStyle: GoogleFonts.quicksand(
                                   color: const Color(0xFFB3B3B3), 
                                   fontWeight: FontWeight.w400,
@@ -160,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Value',
+                                hintText: 'Enter at least 6 characters',
                                 hintStyle: GoogleFonts.quicksand(
                                   color: const Color(0xFFB3B3B3),
                                   fontWeight: FontWeight.w400,
