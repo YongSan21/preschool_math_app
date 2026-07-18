@@ -99,13 +99,20 @@ class _Level5Activity1PageState extends State<Level5Activity1Page> {
             AnimatedOpacity(
               opacity: isTapped ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 250),
-              child: Text(
-                assignedNumber?.toString() ?? '',
-                style: GoogleFonts.quicksand(
-                  color: const Color(0xFF4A3728),
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
+              child: Transform.translate(
+                offset: const Offset(-4, 0),
+                child: SizedBox(
+                  width: 76,
+                  child: Text(
+                    assignedNumber?.toString() ?? '',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color(0xFF4A3728),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    ),
+                  ),
                 ),
               ),
             ),
