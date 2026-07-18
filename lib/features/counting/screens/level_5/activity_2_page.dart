@@ -70,11 +70,20 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
 
     if (boxNumber == droppedNumber) {
       setState(() {
+        _isCheckingDrop = true;
         _filledNumbers[boxNumber] = droppedNumber;
       });
 
+      await _playAudio('great_job.mp3');
+      if (!mounted) return;
+
       if (_filledNumbers.length == _missingNumbers.length) {
         await _handleActivityComplete();
+        return;
+      }
+
+      if (mounted) {
+        setState(() => _isCheckingDrop = false);
       }
     } else {
       setState(() => _isCheckingDrop = true);
@@ -90,17 +99,13 @@ class _Level5Activity2PageState extends State<Level5Activity2Page> {
     setState(() => _isLocked = true);
 
     try {
-      await Future.delayed(const Duration(milliseconds: 400));
+      await Future.delayed(const Duration(milliseconds: 500));
       if (!mounted) return;
 
-      await _playAudio('great_job.mp3');
-
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const Level5Activity3Page()),
-        );
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Level5Activity3Page()),
+      );
     } catch (e) {
       debugPrint('Audio error: $e');
     }
