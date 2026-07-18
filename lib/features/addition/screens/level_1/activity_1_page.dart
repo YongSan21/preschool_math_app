@@ -324,7 +324,7 @@ class _CarrotGroup extends StatelessWidget {
               children: List.generate(count, (_) {
                 final carrot = _CarrotData(group: group);
                 final carrotImage = Image.asset(
-                  'assets/images/carrot.png',
+                  'assets/images/carrot2.png',
                   width: carrotWidth,
                   height: 84,
                   fit: BoxFit.contain,
@@ -336,7 +336,7 @@ class _CarrotGroup extends StatelessWidget {
                   feedback: Material(
                     color: Colors.transparent,
                     child: Image.asset(
-                      'assets/images/carrot.png',
+                      'assets/images/carrot2.png',
                       width: 58,
                       height: 84,
                       fit: BoxFit.contain,
@@ -407,7 +407,7 @@ class _BasketTarget extends StatelessWidget {
                               : Offset.zero,
                           duration: const Duration(milliseconds: 180),
                           child: Image.asset(
-                            'assets/images/carrot.png',
+                            'assets/images/carrot2.png',
                             width: 48,
                             height: 62,
                             fit: BoxFit.contain,
