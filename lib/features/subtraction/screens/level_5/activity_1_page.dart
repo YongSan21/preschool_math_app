@@ -242,13 +242,13 @@ class _SubtractionLevel5Activity1PageState
                               right: 20,
                             ),
                             child: Text(
-                              'How many fish swam away? Drag them out.',
+                              'Drag the fish into the empty boxes.',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
-                                height: 1.3,
+                                height: 2.6,
                               ),
                             ),
                           ),
