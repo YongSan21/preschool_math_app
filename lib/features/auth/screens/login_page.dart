@@ -17,7 +17,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+  bool _obscurePassword = true;
+
   // The GlobalKey that controls and triggers the validation
   final _formKey = GlobalKey<FormState>();
 
@@ -31,11 +32,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, 
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           // ---------------------------------------------------------
-          // 1. BACKGROUND LAYER 
+          // 1. BACKGROUND LAYER
           // ---------------------------------------------------------
           Container(
             decoration: const BoxDecoration(
@@ -52,36 +53,40 @@ class _LoginPageState extends State<LoginPage> {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 16.0,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    
                     // --- WOODEN SIGN WITH TEXT & OUTLINE ---
                     Stack(
-                      alignment: Alignment.center, 
+                      alignment: Alignment.center,
                       children: [
                         Image.asset(
                           'assets/images/wooden_sign.png',
-                          height: 150, 
+                          height: 150,
                           fit: BoxFit.contain,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0), 
+                          padding: const EdgeInsets.only(bottom: 15.0),
                           child: Stack(
                             children: [
                               // Bottom Layer: Dark Brown Outline
                               Text(
                                 'FARM 123',
-                                style: GoogleFonts.sigmarOne( 
+                                style: GoogleFonts.sigmarOne(
                                   fontSize: 42,
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 8 
-                                    ..color = const Color(0xFF4A3728), 
+                                    ..strokeWidth = 8
+                                    ..color = const Color(0xFF4A3728),
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withOpacity(0.5),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.5,
+                                      ),
                                       offset: const Offset(2, 4),
                                       blurRadius: 4,
                                     ),
@@ -91,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
                               // Top Layer: Solid Peach Fill
                               Text(
                                 'FARM 123',
-                                style: GoogleFonts.sigmarOne( 
+                                style: GoogleFonts.sigmarOne(
                                   fontSize: 42,
-                                  color: const Color(0xFFFFD8B9), 
+                                  color: const Color(0xFFFFD8B9),
                                 ),
                               ),
                             ],
@@ -108,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Login',
-                        style: GoogleFonts.fredoka( 
+                        style: GoogleFonts.fredoka(
                           fontSize: 36,
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
@@ -121,35 +126,37 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.90), 
-                        borderRadius: BorderRadius.circular(15), 
+                        color: Colors.white.withValues(alpha: 0.90),
+                        borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: const Color(0xFFD9D9D9), 
+                          color: const Color(0xFFD9D9D9),
                           width: 1,
                         ),
                       ),
-                      
+
                       // 2. ADDED: Wrapped the inner Column in a Form widget
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            
                             // --- USERNAME FIELD ---
                             Text(
-                              'Username', 
-                              style: GoogleFonts.quicksand( 
-                                fontWeight: FontWeight.w700, 
+                              'Username',
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.w700,
                                 fontSize: 16,
-                                color: const Color(0xFF4A3728), 
+                                color: const Color(0xFF4A3728),
                               ),
                             ),
                             const SizedBox(height: 8),
                             // 3. ADDED: Changed to TextFormField & Added Validator
                             TextFormField(
                               controller: _usernameController,
-                              style: GoogleFonts.quicksand(fontSize: 16, color: Colors.black87),
+                              style: GoogleFonts.quicksand(
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Username cannot be empty';
@@ -159,23 +166,33 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: InputDecoration(
                                 hintText: 'Enter your username',
                                 hintStyle: GoogleFonts.quicksand(
-                                  color: const Color(0xFFB3B3B3), 
+                                  color: const Color(0xFFB3B3B3),
                                   fontWeight: FontWeight.w400,
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFD9D9D9),
+                                  ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFD9D9D9),
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFFFB347), width: 2), 
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFFFB347),
+                                    width: 2,
+                                  ),
                                 ),
                               ),
                             ),
@@ -183,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             // --- PASSWORD FIELD ---
                             Text(
-                              'Password', 
+                              'Password',
                               style: GoogleFonts.quicksand(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
@@ -194,8 +211,11 @@ class _LoginPageState extends State<LoginPage> {
                             // 4. ADDED: Changed to TextFormField & Added Validator
                             TextFormField(
                               controller: _passwordController,
-                              obscureText: true,
-                              style: GoogleFonts.quicksand(fontSize: 16, color: Colors.black87),
+                              obscureText: _obscurePassword,
+                              style: GoogleFonts.quicksand(
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Password cannot be empty';
@@ -213,18 +233,41 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword
+                                        ? Icons.visibility_off_rounded
+                                        : Icons.visibility_rounded,
+                                    color: const Color(0xFF4A3728),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFD9D9D9),
+                                  ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFD9D9D9),
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Color(0xFFFFB347), width: 2),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFFFB347),
+                                    width: 2,
+                                  ),
                                 ),
                               ),
                             ),
@@ -238,34 +281,52 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Consumer<AuthController>(
                                   builder: (context, authController, child) {
                                     return ElevatedButton(
-                                      onPressed: authController.isLoading 
-                                          ? null 
+                                      onPressed: authController.isLoading
+                                          ? null
                                           : () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          // 1. Send data to Firebase
-                                          bool success = await authController.loginUser(
-                                            _usernameController.text,
-                                            _passwordController.text,
-                                          );
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                // 1. Send data to Firebase
+                                                bool
+                                                success = await authController
+                                                    .loginUser(
+                                                      _usernameController.text,
+                                                      _passwordController.text,
+                                                    );
 
-                                          // 2. Handle the result
-                                          if (success && context.mounted) {
-                                          // Navigate to the home page, removing the back arrow so they can't accidentally go back to Login
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => const HomePage()),
-                                          );
-                                        } else if (context.mounted){
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text(authController.errorMessage)),
-                                          );
-                                        }
-                                        }
-                                      },
+                                                // 2. Handle the result
+                                                if (success &&
+                                                    context.mounted) {
+                                                  // Navigate to the home page, removing the back arrow so they can't accidentally go back to Login
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomePage(),
+                                                    ),
+                                                  );
+                                                } else if (context.mounted) {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        authController
+                                                            .errorMessage,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFFFFB347),
+                                        backgroundColor: const Color(
+                                          0xFFFFB347,
+                                        ),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius: BorderRadius.circular(
+                                            15,
+                                          ),
                                         ),
                                         elevation: 0,
                                       ),
@@ -297,10 +358,10 @@ class _LoginPageState extends State<LoginPage> {
                             // --- CUSTOM DIVIDER ---
                             Center(
                               child: Container(
-                                width: 259, 
+                                width: 259,
                                 height: 4,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFE8DEF8), 
+                                  color: const Color(0xFFE8DEF8),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                               ),
@@ -312,7 +373,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 'NEW TO THE FARM?',
                                 style: GoogleFonts.quicksand(
-                                  color: Colors.black, 
+                                  color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -330,11 +391,14 @@ class _LoginPageState extends State<LoginPage> {
                                     // 6. ADDED: Navigates to the Sign Up page
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const SignUpPage()),
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpPage(),
+                                      ),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFF2D06B), 
+                                    backgroundColor: const Color(0xFFF2D06B),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -343,8 +407,8 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text(
                                     'Sign Up',
                                     style: GoogleFonts.quicksand(
-                                      fontSize: 16, 
-                                      color: const Color(0xFF4A3728), 
+                                      fontSize: 16,
+                                      color: const Color(0xFF4A3728),
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
