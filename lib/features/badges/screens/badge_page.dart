@@ -79,12 +79,16 @@ class BadgePage extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: Container(
                           width: double.infinity,
-                          height: 72,
+                          height: 68,
                           color: Colors.white,
-                          child: Center(
-                            child: _BottomNavigationBar(
-                              onHomeTap: () => Navigator.maybePop(context),
-                              onBadgesTap: () {},
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: _BottomNavigationBar(
+                                onHomeTap: () => Navigator.maybePop(context),
+                                onBadgesTap: () {},
+                              ),
                             ),
                           ),
                         ),
