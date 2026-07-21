@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/screens/complete_screen.dart';
 import '../../../shared/widgets/activity_progress_bar.dart';
-import 'level_1_complete_screen.dart';
+import '../level_2/activity_1_page.dart';
 
 class Activity3Page extends StatefulWidget {
   const Activity3Page({super.key});
@@ -18,6 +19,7 @@ class _Activity3PageState extends State<Activity3Page> {
   // 1. State Variables for the animations
   bool _isLocked = false;
   bool _isGreyedOut = false;
+  bool _showCompletePopup = false;
   int? _currentlyCountingIndex;
 
   @override
@@ -64,14 +66,8 @@ class _Activity3PageState extends State<Activity3Page> {
         await _audioPlayer.play(AssetSource('audio/there_are_five_ponies.mp3'));
         await Future.delayed(const Duration(milliseconds: 3000));
 
-        // 4. Transition to Level Complete!
         if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Level1CompleteScreen(),
-            ),
-          );
+          setState(() => _showCompletePopup = true);
         }
       } else {
         // Wrong Answer
@@ -301,6 +297,21 @@ class _Activity3PageState extends State<Activity3Page> {
               ),
             ),
           ),
+          if (_showCompletePopup)
+            CompletePopup(
+              module: 'counting',
+              levelCompleted: 1,
+              badgeName: 'count_badge1',
+              badgeImage: 'assets/images/count_badge1.png',
+              onContinue: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Level2Activity1Page(),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

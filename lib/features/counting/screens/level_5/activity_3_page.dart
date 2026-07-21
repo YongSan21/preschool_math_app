@@ -1,9 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/screens/complete_screen.dart';
 import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'level_5_complete_screen.dart';
 
 class Level5Activity3Page extends StatefulWidget {
   const Level5Activity3Page({super.key});
@@ -17,6 +16,7 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
 
   final int _targetNumber = 3;
   bool _isLocked = false;
+  bool _showCompletePopup = false;
   int? _selectedNumber;
 
   final List<_BubbleItem> _bubbles = const [
@@ -59,12 +59,7 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
         await Future.delayed(const Duration(milliseconds: 1500));
 
         if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Level5CompleteScreen(),
-            ),
-          );
+          setState(() => _showCompletePopup = true);
         }
       } catch (e) {
         debugPrint('Audio error: $e');
@@ -196,6 +191,14 @@ class _Level5Activity3PageState extends State<Level5Activity3Page> {
               ),
             ),
           ),
+          if (_showCompletePopup)
+            const CompletePopup(
+              module: 'counting',
+              levelCompleted: 5,
+              badgeName: 'count_badge5',
+              badgeImage: 'assets/images/count_badge5.png',
+              showContinueButton: false,
+            ),
         ],
       ),
     );

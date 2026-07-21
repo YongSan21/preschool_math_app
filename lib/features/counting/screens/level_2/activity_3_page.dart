@@ -1,9 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
+import '../../../shared/screens/complete_screen.dart';
 import '../../../shared/widgets/activity_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'level_2_complete_screen.dart';
+import '../level_3/activity_1_page.dart';
 
 class Level2Activity3Page extends StatefulWidget {
   const Level2Activity3Page({super.key});
@@ -20,6 +21,7 @@ class _Level2Activity3PageState extends State<Level2Activity3Page> {
 
   bool _isLocked = false;
   bool _isGreyedOut = false;
+  bool _showCompletePopup = false;
   int? _currentlyCountingIndex;
 
   @override
@@ -64,12 +66,7 @@ class _Level2Activity3PageState extends State<Level2Activity3Page> {
         await Future.delayed(const Duration(milliseconds: 3000));
 
         if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Level2CompleteScreen(),
-            ),
-          );
+          setState(() => _showCompletePopup = true);
         }
       } else {
         await _audioPlayer.play(AssetSource('audio/try_again.mp3'));
@@ -275,6 +272,21 @@ class _Level2Activity3PageState extends State<Level2Activity3Page> {
               ),
             ),
           ),
+          if (_showCompletePopup)
+            CompletePopup(
+              module: 'counting',
+              levelCompleted: 2,
+              badgeName: 'count_badge2',
+              badgeImage: 'assets/images/count_badge2.png',
+              onContinue: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Level3Activity1Page(),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );
