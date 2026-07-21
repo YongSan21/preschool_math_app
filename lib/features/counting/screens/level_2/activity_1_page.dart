@@ -77,8 +77,8 @@ class _Level2Activity1PageState extends State<Level2Activity1Page> {
     setState(() => _isLocked = true);
 
     try {
-      // Wait 1 second to let the word "Ten" completely finish playing
-      await Future.delayed(const Duration(seconds: 1));
+      // Keep a short beat after "ten" before the celebration starts.
+      await Future.delayed(const Duration(milliseconds: 250));
       if (!mounted) return;
 
       // Play the celebratory audio matching Level 1
