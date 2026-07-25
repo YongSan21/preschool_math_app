@@ -169,7 +169,7 @@ class _SubtractionLevel3Activity2PageState
             children: [
               Positioned.fill(
                 child: Image.asset(
-                  'assets/images/subtraction_background3.png',
+                  'assets/images/subtraction_background2.png',
                   fit: BoxFit.cover,
                 ),
               ),
