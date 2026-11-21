@@ -3,7 +3,6 @@
 A new Flutter project.
 
 ## Getting Started
-# FARM 123 🌱
 
 FARM 123 is a gamified interactive mathematics learning mobile application designed for preschool children aged 4–6. It aims to make early mathematics learning more engaging and enjoyable through a fun farm-themed environment.
 
